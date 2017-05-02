@@ -15,15 +15,17 @@
 			include 'funcion.php';
 			$Conexion = new Conexion;
 			$Consulta = new Consulta;
-			$conexion = $Conexion->conectarBD(); 
-			$clave = pwssha512($_POST['clave1']);
-			$email = $_POST['email'];
+			$clave = $_POST['clave1'];
+			$email = $Consulta->escapar($_POST['email']);
 			$consultaemail = "SELECT email, password FROM users WHERE email = '$email'";
 			$admin = "SELECT email, bloqueado FROM admins WHERE email = '$email'";
-			$consultamail = $Consulta->consultaLibre($email);
+			$consultaemail = $Consulta->consultaLibre($consultaemail);
 			$consultaadmin = $Consulta->consultaLibre($admin);
-			$filas = $consultamail->fetch_array(MYSQLI_NUM);
-			$resultadoclave = print_r($filas[3], true);
+			$filas = $consultaemail->fetch_array(MYSQLI_NUM);
+			$resultadoclave = print_r($filas[1], true);
+			$conexionremota = ssh2_connect('mail.proyecto.net', 22); //Me conecto de forma remota a mi servidor
+			ssh2_auth_password($connection, 'proyecto', 'proyecto');
+			$comprobarclave = explode('', exec(doveadm pw -t {$resultadoclave} -p {$clave} | grep verified')); // Dejo que la comprobación de la contraseña lo haga Dovecot
 			// Variables para contar tanto los intentos como si ha sido un bloqueo temporal
 			/* if(!isset($_SESSION['cuentaBloqueo'])) {
 				$_SESSION['cuentaBloqueo'] = 4;
@@ -33,7 +35,7 @@
 			if ($numfilas === 0 OR NULL) {
 				$_SESSION['error'] = "El correo no está registrado.";
 				header('Location: login.php');
-			} elseif ($clave !== $resultadoclave ) {
+			} elseif (password_verify($clave, $resultadoclave) === FALSE ) {
 				//$actualizarerror = "UPDATE usuarios SET nErrores = nErrores + 1 WHERE IDUsuario = '$resultadoid';";
 				//mysqli_query($conexion, $actualizarerror);
 				$_SESSION['error'] = "La contraseña introducida es incorrecta.";
@@ -91,7 +93,7 @@
 			else{
 				echo "hola";
 				}
-			
+			$Conexion->cerrar();
 			
 		?>
 	</body>
