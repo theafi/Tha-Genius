@@ -24,7 +24,7 @@
 	<body>
 <?php 
 	session_start();
-	if((isset($_SESSION['id'])) && (!empty($_SESSION['id']))) {
+	if((isset($_SESSION['email'])) && (!empty($_SESSION['email']))) {
 		header('Location: index.php');
 	 }
 

@@ -96,7 +96,7 @@
 				$_SESSION['nombre'] = print_r($filas[0], true);
 				$_SESSION['apellidos'] = print_r($filas[1], true);
 				$_SESSION['dominio'] = print_r($filas[2], true);
-				$fecha = date('Y-m-d-H:i:s');
+				$fecha = date('Y-m-d H:i:s');
 				$Consulta->consulta("INSERT INTO sessions(email, last_login) VALUES ('{$email}', '{$fecha}')");
 				$Consulta->cerrar();
 				header('Location: index.php');
