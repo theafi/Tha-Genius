@@ -1,13 +1,8 @@
 <!DOCTYPE html>
-<?php 
-	session_start();
-	if((isset($_SESSION['id'])) && (!empty($_SESSION['id']))) {
-		header('Location: index.php');
-	 }
-?>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta
+		 charset="UTF-8">
         <link rel="stylesheet" href="css/bootstrap.css">
         <script src="js/jquery.js"></script>
 		<script src="js/bootstrap.js"></script>
@@ -27,6 +22,30 @@
 		
 	</head>
 	<body>
+<?php 
+	session_start();
+	if((isset($_SESSION['id'])) && (!empty($_SESSION['id']))) {
+		header('Location: index.php');
+	 }
+
+	include 'funcion.php';
+	$conexion = new BD; 
+	$consulta = new Consultas;
+	$admin = $consulta->consulta('SELECT * FROM admins');
+	$resultadoadmin = $admin->fetch_array(MYSQLI_NUM);
+	if (empty($resultadoadmin) || $resultadoadmin === FALSE) {
+		$sentencia1 = "INSERT INTO `users` (`email`, `name`, `surname`, `password`, `alternate_email`) VALUES ('admin@proyecto.net', 'admin', 'admin', '{SSHA512}a260mcxkS1Mqt8hMhVrvllBOOk96WKJX7lutTihaYc2LX0MGUMa9Kvak/1KXYGWF9cOjM9ieD13vXgIw+N6luIdg4Tw=', NULL)";
+		$consulta1= $consulta->consultaLibre($sentencia1);
+		$sentencia2 = "INSERT INTO `admins` (`email`, `password`, `bloqueado`) VALUES ('admin@proyecto.net', '". password_hash("admin", PASSWORD_DEFAULT) ."', '0')";
+		$consulta2 = $consulta->consultaLibre($sentencia2);
+		echo "<div class=\"alert alert-warning\">
+    <a href=\"#\" class=\"close\" data-dismiss=\"alert\">&times;</a>
+    <strong>ALERTA</strong> No se ha detectado una cuenta de administrador en el sistema. Se ha añadido una con las credenciales \"admin@proyecto.net\" y de contraseña \"admin\". Se recomienda encarecidamente cambiar las contraseñas de esta cuenta o deshabilitar/borrar la cuenta una vez hayas añadido una cuenta de administración.
+</div>";
+		$conexion->cerrar();	
+	}  
+?>
+
 		<div class="login">
 			<div class="form-group">
 				<form action="validarLogin.php" autocomplete="on" method="post" enctype="multipart/form-data">

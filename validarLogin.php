@@ -13,32 +13,30 @@
 	<body>
 		<?php
 			include 'funcion.php';
-			$Conexion = new Conexion;
-			$Consulta = new Consulta;
+			$Conexion = new BD;
+			$Consulta = new Consultas;
 			$clave = $_POST['clave1'];
 			$email = $Consulta->escapar($_POST['email']);
-			$consultaemail = "SELECT email, password FROM users WHERE email = '$email'";
-			$admin = "SELECT email, bloqueado FROM admins WHERE email = '$email'";
-			$consultaemail = $Consulta->consultaLibre($consultaemail);
-			$consultaadmin = $Consulta->consultaLibre($admin);
-			$filas = $consultaemail->fetch_array(MYSQLI_NUM);
+			$admin = $Consulta->preparar("SELECT email, password, bloqueado FROM admins WHERE email = ?", $email, 's');
+			$resultado = $admin->get_result();
+			$filas = $resultado->fetch_array(MYSQLI_NUM);
 			$resultadoclave = print_r($filas[1], true);
-			$conexionremota = ssh2_connect('mail.proyecto.net', 22); //Me conecto de forma remota a mi servidor
-			ssh2_auth_password($connection, 'proyecto', 'proyecto');
-			$comprobarclave = explode('', exec(doveadm pw -t {$resultadoclave} -p {$clave} | grep verified')); // Dejo que la comprobación de la contraseña lo haga Dovecot
+			$estadocuenta = print_r($filas[2], true);
+			// Lo ideal sería compartir las mismas contraseñas entre administrador y correo electrónico (para ello dejaría que Dovecot hiciese la comprobación de contraseñas con el comando exec y con una condición que compruebe que el comando envía la palabra "verified") pero como es demasiado trabajo que no puedo implementar por falta de tiempo lo que haré serán dos bases de datos: En una la autenticación la hará Dovecot, y en otra la hará PHP. Esto nos puede servir como una especie de fail-over (si algo ocurre y Dovecot falla podemos seguir entrando al modo administración, y viceversa podremos seguir enviando correo) y es mucho más fácil de implementar y menos laborioso
 			// Variables para contar tanto los intentos como si ha sido un bloqueo temporal
 			/* if(!isset($_SESSION['cuentaBloqueo'])) {
 				$_SESSION['cuentaBloqueo'] = 4;
 				$_SESSION['bloqueoPorContador'] = 0;
 			} */
-			$numfilas = $consultamail->num_rows;
+			$numfilas = $resultado->num_rows;
 			if ($numfilas === 0 OR NULL) {
 				$_SESSION['error'] = "El correo no está registrado.";
+				$Conexion->cerrar();
 				header('Location: login.php');
 			} elseif (password_verify($clave, $resultadoclave) === FALSE ) {
-				//$actualizarerror = "UPDATE usuarios SET nErrores = nErrores + 1 WHERE IDUsuario = '$resultadoid';";
-				//mysqli_query($conexion, $actualizarerror);
+				$Consulta->preparar("UPDATE sessions SET login_attempts = login_attempts + 1 WHERE email = ?", $email, 's');
 				$_SESSION['error'] = "La contraseña introducida es incorrecta.";
+				$Conexion->cerrar();
 				header('Location: login.php');
 				/* Esto es parte de una operación para bloquear conexiones tras x intentos que ya veré cómo implementar
 				
@@ -91,9 +89,19 @@
 			*/} 
 			
 			else{
-				echo "hola";
+				$consulta_datos_usuario = $Consulta->preparar("SELECT name, surname, domain FROM users WHERE email = ?", $email, 's');
+				$datos_usuario = $consulta_datos_usuario->get_result();
+				$filas = $datos_usuario->fetch_array(MYSQLI_NUM);
+				$_SESSION['email'] = $email;
+				$_SESSION['nombre'] = print_r($filas[0], true);
+				$_SESSION['apellidos'] = print_r($filas[1], true);
+				$_SESSION['dominio'] = print_r($filas[2], true);
+				$fecha = date('Y-m-d-H:i:s');
+				$Consulta->consulta("INSERT INTO sessions(email, last_login) VALUES ('{$email}', '{$fecha}')");
+				$Consulta->cerrar();
+				header('Location: index.php');
 				}
-			$Conexion->cerrar();
+			
 			
 		?>
 	</body>
