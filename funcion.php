@@ -1,6 +1,7 @@
 <?php
 	class BD {
 		// Variables protegidas para que no puedan ser accedidas fuera de las propias clases o sus clases heredadas
+		// Sé que es mala práctica poner los datos justo en los scripts pero lo hago para que me sea más facil debuggear
 		protected static $dbhost = "mail.proyecto.net"; //Lo ideal es que tengamos que poner el nombre del dominio en lugar de la IP
 		protected static $dbusuario = "php_admin";
 		protected static $dbpassword = "wEXLx4d3p3MjaC3N";

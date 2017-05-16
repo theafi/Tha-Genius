@@ -24,20 +24,22 @@
 	<body>
 <?php 
 	session_start();
+	if (empty($_SESSION['token'])) { // Para evitar ataques CSRF
+		$_SESSION['token'] = bin2hex(random_bytes(32));
+	}
+	$token = $_SESSION['token'];
 	if((isset($_SESSION['email'])) && (!empty($_SESSION['email']))) {
 		header('Location: index.php');
 	 }
 
-	include 'funcion.php';
+	require 'funcion.php';
 	$conexion = new BD; 
 	$consulta = new Consultas;
 	$admin = $consulta->consulta('SELECT * FROM admins');
 	$resultadoadmin = $admin->fetch_array(MYSQLI_NUM);
 	if (empty($resultadoadmin) || $resultadoadmin === FALSE) {
-		$sentencia1 = "INSERT INTO `users` (`email`, `name`, `surname`, `password`, `alternate_email`) VALUES ('admin@proyecto.net', 'admin', 'admin', '{SSHA512}a260mcxkS1Mqt8hMhVrvllBOOk96WKJX7lutTihaYc2LX0MGUMa9Kvak/1KXYGWF9cOjM9ieD13vXgIw+N6luIdg4Tw=', NULL)";
-		$consulta1= $consulta->consultaLibre($sentencia1);
-		$sentencia2 = "INSERT INTO `admins` (`email`, `password`, `bloqueado`) VALUES ('admin@proyecto.net', '". password_hash("admin", PASSWORD_DEFAULT) ."', '0')";
-		$consulta2 = $consulta->consultaLibre($sentencia2);
+		$consulta1= $consulta->consulta("INSERT INTO `users` (`email`, `name`, `surname`, `password`, `alternate_email`) VALUES ('admin@proyecto.net', 'admin', 'admin', '{SSHA512}a260mcxkS1Mqt8hMhVrvllBOOk96WKJX7lutTihaYc2LX0MGUMa9Kvak/1KXYGWF9cOjM9ieD13vXgIw+N6luIdg4Tw=', NULL)");
+		$consulta2 = $consulta->consulta("INSERT INTO `admins` (`email`, `password`, `bloqueado`) VALUES ('admin@proyecto.net', '". password_hash("admin", PASSWORD_DEFAULT) ."', '0')");
 		echo "<div class=\"alert alert-warning\">
     <a href=\"#\" class=\"close\" data-dismiss=\"alert\">&times;</a>
     <strong>ALERTA</strong> No se ha detectado una cuenta de administrador en el sistema. Se ha añadido una con las credenciales \"admin@proyecto.net\" y de contraseña \"admin\". Se recomienda encarecidamente cambiar las contraseñas de esta cuenta o deshabilitar/borrar la cuenta una vez hayas añadido una cuenta de administración.
@@ -54,10 +56,11 @@
 			<div class="form-group">
 					<input type="password" class="form-control" name="clave1" id="clave1" minlength="5" maxlength="10" placeholder="Contraseña" required> <br>
 			</div>
+			<input type="hidden" name="token" value="<?php echo $token; ?>" required>
 			<div class="form-group">
 					<input type="checkbox" name="recuerdame"> Recuérdame
 			</div>
-			<button type="submit">Iniciar sesión</button> <a href="recuperar.html"><small>Olvidé mi contraseña</small></a><br>
+			<button type="submit">Iniciar sesión</button> <a href=""><small>Olvidé mi contraseña</small></a><br>
 			<small>¿No tiene cuenta? <a href="registro.php">Registre una cuenta</a></small>
 			</form> 
 			<div id="error"><?php 

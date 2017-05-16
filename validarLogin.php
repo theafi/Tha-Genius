@@ -3,6 +3,11 @@
 	if((isset($_SESSION['id'])) && (!empty($_SESSION['id']))) { 
 		header('Location: index.php');
 	}
+	if (!empty($_POST['token'])) {
+		if (!hash_equals($_SESSION['token'], $_POST['token'])) {
+			echo "ALERTA: Está sucediendo un ataque CSRF.";
+		} 
+	}	
 ?>
 <html>
 	<head>
@@ -12,7 +17,7 @@
 	</head>
 	<body>
 		<?php
-			include 'funcion.php';
+			require 'funcion.php';
 			$Conexion = new BD;
 			$Consulta = new Consultas;
 			$clave = $_POST['clave1'];

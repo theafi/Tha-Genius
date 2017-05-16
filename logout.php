@@ -1,8 +1,9 @@
 <?php
 	session_start();
-	if((!isset($_SESSION['id'])) && (empty($_SESSION['id']))) { 
+	if((!isset($_SESSION['email'])) && (empty($_SESSION['email']))) { 
 		header('Location: login.php');
 	} else{
+		$_SESSION = array();
 		session_unset();
 		session_destroy();
 		session_write_close();
