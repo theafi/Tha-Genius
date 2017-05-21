@@ -23,8 +23,7 @@
 			$clave = $_POST['clave1'];
 			$email = $Consulta->escapar($_POST['email']);
 			$admin = $Consulta->preparar("SELECT email, password, bloqueado FROM admins WHERE email = ?", $email, 's');
-			$resultado = $admin->get_result();
-			$filas = $resultado->fetch_array(MYSQLI_NUM);
+			$filas = $admin->fetch_array(MYSQLI_NUM);
 			$resultadoclave = print_r($filas[1], true);
 			$estadocuenta = print_r($filas[2], true);
 			// Lo ideal sería compartir las mismas contraseñas entre administrador y correo electrónico (para ello dejaría que Dovecot hiciese la comprobación de contraseñas con el comando exec y con una condición que compruebe que el comando envía la palabra "verified") pero como es demasiado trabajo que no puedo implementar por falta de tiempo lo que haré serán dos bases de datos: En una la autenticación la hará Dovecot, y en otra la hará PHP. Esto nos puede servir como una especie de fail-over (si algo ocurre y Dovecot falla podemos seguir entrando al modo administración, y viceversa podremos seguir enviando correo) y es mucho más fácil de implementar y menos laborioso
@@ -33,7 +32,7 @@
 				$_SESSION['cuentaBloqueo'] = 4;
 				$_SESSION['bloqueoPorContador'] = 0;
 			} */
-			$numfilas = $resultado->num_rows;
+			$numfilas = $admin->num_rows;
 			if ($numfilas === 0 OR NULL) {
 				$_SESSION['error'] = "El correo no está registrado.";
 				$Conexion->cerrar();
@@ -95,14 +94,17 @@
 			
 			else{
 				$consulta_datos_usuario = $Consulta->preparar("SELECT name, surname, domain FROM users WHERE email = ?", $email, 's');
-				$datos_usuario = $consulta_datos_usuario->get_result();
-				$filas = $datos_usuario->fetch_array(MYSQLI_NUM);
+				
+				$filas = $consulta_datos_usuario->fetch_array(MYSQLI_NUM);
 				$_SESSION['email'] = $email;
 				$_SESSION['nombre'] = print_r($filas[0], true);
 				$_SESSION['apellidos'] = print_r($filas[1], true);
 				$_SESSION['dominio'] = print_r($filas[2], true);
 				$fecha = date('Y-m-d H:i:s');
 				$Consulta->consulta("INSERT INTO sessions(email, last_login) VALUES ('{$email}', '{$fecha}')");
+				$consulta_sessionid = $Consulta->consulta("SELECT session_id FROM sessions WHERE email = '{$email}' AND last_login = '{$fecha}'");
+				$fetchsessionid = $consulta_sessionid->fetch_array(MYSQLI_NUM);
+				$_SESSION['sessionid'] = print_r($fetchsessionid[0], true);
 				$Consulta->cerrar();
 				header('Location: index.php');
 				}

@@ -63,7 +63,7 @@
     			echo "Ejecución fallida: (" . $stmt->errno() . ") " . $stmt->error();
 			}
 			//Fetch results
-			return $stmt;
+			return $stmt->get_result();
 		}
 		public function insertar($tabla, $datos, $formato) { // En la consulta se podrá insertar varios valores, separados por comas
 			if (empty($tabla) || empty($datos)) { //Controlamos que ni la variable tabla ni la variable datos estén vacíos
