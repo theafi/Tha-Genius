@@ -65,59 +65,7 @@
 			//Fetch results
 			return $stmt->get_result();
 		}
-		public function insertar($tabla, $datos, $formato) { // En la consulta se podrá insertar varios valores, separados por comas
-			if (empty($tabla) || empty($datos)) { //Controlamos que ni la variable tabla ni la variable datos estén vacíos
-				return false;
-			}
-			$conexion = parent::conectar();
-			//Convertimos datos y formato en arrays
-			$datos = array($datos);
-			$formato = array($formato);
-
-			//Construimos el string de formato
-			$formato = implode('', $formato);
-			$formato = str_replace('%', '', $formato);
-
-			list($campos, $placeholders, $valores) = $this->prep_query($datos);
-			array_unshift($valores, $formato);
-			// Preparamos la consulta
-			$sentencia = $conexion->prepare("INSERT INTO {$tabla} {{$campos}} VALUES {{$placeholders}}");
-			// Llamamos de forma dinámica los bind values
-			call_user_func_array(array($sentencia, 'bind_param'), $this->ref_values($valores));
-			//Ejecutamos la sencencia
-			$sentencia->execute();
-			//Comprobamos que se ha insertado con éxito
-			if ($sentencia->affected_rows) {
-				return true;
-			}
-			return false;
-
-		}
-		public function seleccionar($consulta, $datos, $formato) {
-			$conexion = parent::conectar();
-			$sentencia = $conexion->prepare($consulta);
-			//Normalize format
-			$formato = implode('', $formato); 
-			$formato = str_replace('%', '', $formato);
-			// Prepend $format onto $values
-			array_unshift($datos, $formato);
-			
-			//Dynamically bind values
-			call_user_func_array( array( $sentencia, 'bind_param'), $this->ref_values($datos));
-			
-			//Execute the query
-			$sentencia->execute();
-			
-			//Fetch results
-			$resultado = $sentencia->get_result();
-			
-			//Create results object
-			while ($row = $resultado->fetch_object()) {
-				$resultados[] = $row;
-			}
-			return $resultados;
 		
-		}
 	}
 	class hash { // Una clase para generar hashes
 		public function ssha512($password) { //Genera un hash Salted SHA512 (codificada en Base64) para almacenar contraseñas en Dovecot (Código por cortesía de https://mad9scientist.com/dovecot-password-creation-php/)
