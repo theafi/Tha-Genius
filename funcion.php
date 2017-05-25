@@ -44,7 +44,7 @@
 		TABLA DE DATOS DE LA VARIABLE $formato
 		Character	Description
 		i			corresponding variable has type integer
-		d			corresponding variable has type double
+		d			corresponding variable has type doublef0
 		s			corresponding variable has type string
 		b			corresponding variable is a blob and will be sent in packets
 		

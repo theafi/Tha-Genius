@@ -54,7 +54,7 @@
                                         $usuarios = $consulta->preparar("SELECT email, name, surname, alternate_email FROM users WHERE domain = ?", $dominio, 's');
                                         while ($row = $usuarios->fetch_array(MYSQLI_NUM)) {
                                             $count = 1;
-                                            if ($row[0] === "do_not_reply@proyecto.net") {
+                                            if ($row[0] === "do_not_reply@proyecto.net") { // Quiero conservar esta cuenta porque es la que usaré para recuperar contraseñas y enviar cualquier clase de información y por eso no dejo que nadie la toque 
                                                 echo "<tr><td></td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td></td></tr>";                                    
                                             } else{
                                                 echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$count}\ name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><i class=\"fa fa-cog\" aria-hidden=\"true\"></i> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></td></tr>";                                    
