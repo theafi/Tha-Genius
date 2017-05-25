@@ -46,20 +46,24 @@
                         <tbody>
                             <?php
                                 if (isset($_GET['dominio'])) {
-                                    $dominio = $_GET['dominio'];
+                                    $dominio = $consulta->escapar($_GET['dominio']);
                                     $usuarios = $consulta->preparar("SELECT email, name, surname, alternate_email FROM users WHERE domain = ?", $dominio, 's');
                                     while ($row = $usuarios->fetch_array(MYSQLI_NUM)) {
-                                    echo "<tr><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><i class=\"fa fa-times\" aria-hidden=\"true\"></i></td></tr>";                                    }
+                                    echo "<tr><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><i class=\"fa fa-cog\" aria-hidden=\"true\"></i> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></td></tr>";                                    
+                                    }
                                 } 
                                 if (!isset($_GET['dominio']) || empty($_GET['dominio'])) {
                                     $usuarios = $consulta->consulta("SELECT email, name, surname, alternate_email FROM users");
                                     while ($row = $usuarios->fetch_array(MYSQLI_NUM)) {
-                                        echo "<tr><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><i class=\"fa fa-times\" aria-hidden=\"true\"></i></td></tr>";
+                                        echo "<tr><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><i class=\"fa fa-cog\" aria-hidden=\"true\"></i> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></td></tr>";
                                     }
                                 }
                                 
                             ?>
                         </tbody>
+                        <tfoot>
+                            <tr><td colspan="5"><i class="fa fa-plus" aria-hidden="true"> </i> Añadir usuario </td></tr>
+                        </tfoot>
                     </table>
                 </main>
             </div>
