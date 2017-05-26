@@ -21,7 +21,6 @@
          foreach ($_POST['checkbox'] as $email) {
             $consulta->preparar('DELETE FROM users WHERE email = ?', $email, 's');  
         }
-
     }
     $consulta->cerrar();
     header('Location: ../usuarios.php');
