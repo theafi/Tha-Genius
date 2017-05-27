@@ -53,7 +53,7 @@
                                             $row[2] = htmlspecialchars($row[2]);
                                             $row[3] = htmlspecialchars($row[3]);
                                             if ($row[0] === "do_not_reply@proyecto.net") { // Quiero conservar esta cuenta porque es la que usaré para recuperar contraseñas y enviar cualquier clase de información y por eso no dejo que nadie la toque 
-                                                echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"usuarios/ajustes.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";                                    
+                                                echo "<tr><td></td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td></td></tr>";                                    
                                             } else{
                                                 echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"usuarios/ajustes.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";                                    
     
@@ -69,7 +69,7 @@
                                             $row[2] = htmlspecialchars($row[2]);
                                             $row[3] = htmlspecialchars($row[3]);
                                             if ($row[0] === "do_not_reply@proyecto.net") {
-                                                echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"usuarios/ajustes.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";                                    
+                                                echo "<tr><td></td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td></td></tr>";                                    
                                             } else{
                                                 echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"usuarios/ajustes.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";                                    
     
@@ -82,7 +82,7 @@
 
                             </tbody>
                             <tfoot>
-                                <tr><td colspan="6"><i class="fa fa-plus" aria-hidden="true"> </i> Añadir usuario </td></tr>
+                                <tr><td colspan="6"><a href="nuevoUsuario.php"> <i class="fa fa-plus" aria-hidden="true"> </i> Añadir usuario</a> </td></tr>
                             </tfoot>
                         </table>
                         <input type="hidden" name="token" value="<?php echo $token; ?>">
