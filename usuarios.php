@@ -46,7 +46,7 @@
                                 <?php
                                     if (isset($_GET['dominio'])) {
                                         $dominio = $consulta->escapar($_GET['dominio']);
-                                        $usuarios = $consulta->preparar("SELECT email, name, surname, alternate_email FROM users WHERE domain = ?", $dominio, 's');
+                                        $usuarios = $consulta->preparar("SELECT users.email, users.name, users.surname, restore.alternate_email FROM users LEFT OUTER JOIN restore ON restore.user = users.email WHERE domain = ?", $dominio, 's');
                                         while ($row = $usuarios->fetch_array(MYSQLI_NUM)) {
                                             $row[0] = htmlspecialchars($row[0]);
                                             $row[1] = htmlspecialchars($row[1]);
@@ -61,8 +61,7 @@
                                         }
                                     } 
                                     if (!isset($_GET['dominio']) || empty($_GET['dominio'])) {
-                                        $usuarios = $consulta->consulta("SELECT email, name, surname, alternate_email FROM users");
-                                        $count = 1;
+                                        $usuarios = $consulta->consulta("SELECT users.email, users.name, users.surname, restore.alternate_email FROM users LEFT OUTER JOIN restore ON restore.user = users.email");
                                         while ($row = $usuarios->fetch_array(MYSQLI_NUM)) {
                                             $row[0] = htmlspecialchars($row[0]);
                                             $row[1] = htmlspecialchars($row[1]);
@@ -71,10 +70,9 @@
                                             if ($row[0] === "do_not_reply@proyecto.net") {
                                                 echo "<tr><td></td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td></td></tr>";                                    
                                             } else{
-                                                echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"usuarios/ajustes.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";                                    
-    
+                                                echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"usuarios/ajustes.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";            
                                             }
-                                            $count++;
+                                            
                                         }
                                     }
                                     

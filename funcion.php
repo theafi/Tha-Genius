@@ -70,7 +70,8 @@
 	class hash { // Una clase para generar hashes
 		public function ssha512($password) { //Genera un hash Salted SHA512 (codificada en Base64) para almacenar contraseñas en Dovecot (Código por cortesía de https://mad9scientist.com/dovecot-password-creation-php/)
 			$salt = substr(sha1(rand()), 0, 16);
-			$hashedPassword = base64_encode(hash('sha512', $password . $salt, true) . $salt);
+			$hashedPassword = "{SSHA512}" . base64_encode(hash('sha512', $password . $salt, true) . $salt);
+			return $hashedPassword;
 		}
 	}
 		//Función vieja del otro proyecto, no muy útil de momento.
