@@ -12,13 +12,13 @@
                                     <a class="nav-link" href="usuarios.php">   Usuarios</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="index.php?section=dominios">   Dominios</a>
+                                    <a class="nav-link" href="dominios.php">   Dominios</a>
                                 </li>
                                 <li class="nav-item">
-                                <a class="nav-link" href="index.php?section=forwardings">    Redirecciones</a>
+                                <a class="nav-link" href="redirecciones.php">    Redirecciones</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" class="" href="index.php?section=transport"> Transporte</a>
+                                    <a class="nav-link" class="" href="transporte.php"> Transporte</a>
                                 </li>
                             </ul>
                         </li>
