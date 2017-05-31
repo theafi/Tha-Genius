@@ -53,7 +53,11 @@
                 //and the confirmation field
                 if(pass1.value == pass2.value){
                     //Las contraseñas coinciden
-                    if(pass1.value.length < 6 && pass2.value.length < 6) {
+                    // Para que pueda enviar el formulario sin cambiar la contrase;a necesariamente tengo que permitir que si el valor es 0 que devuelva true
+                    if (pass1.value.length === 0 && pass2.value.length === 0) {
+                        return (true);
+                    } else {
+                        if(pass1.value.length < 6 && pass2.value.length < 6) {
                         pass1.style.backgroundColor = badColor;
                         pass2.style.backgroundColor = badColor;
                         message.style.color = badColor;
@@ -62,6 +66,8 @@
                     } else {
                         return (true);
                     }
+                    }
+                    
                 } else{
                     //The passwords do not match.
                     //Set the color to the bad color and
@@ -114,7 +120,7 @@
                 <?php include 'sidebar.php'; ?>
                 <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
                     <div class="col-md-5">
-                        <form action="/usuarios/nuevo.php" method="post" autocomplete="off" onSubmit="return checkPass(this);">  
+                        <form action="/usuarios/modificar.php" method="post" autocomplete="off" onSubmit="return checkPass(this);">  
                             <div class="form-group">
                             <div class="form-group">
                                 <input type="email" class="form-control" name="email" maxLength="80" value="<?php echo $row[0]; ?>" placeholder="Correo electrónico" readonly required>
@@ -145,10 +151,11 @@
                             <div class="form-group">
                                     <label>Pregunta secreta:</label>
                                     <select class="form-control" name="pregunta">
-                                        <option>¿Cuál es el nombre de tu primera mascota?</option>
-                                        <option>¿A qué colegio de primaria fuiste?</option>
-                                        <option>¿Cuál es el nombre de tu superhéroe favorito?</option>
-                                        <option>¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?</option>
+
+                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                        <option value="¿A qué colegio de primaria fuiste?">¿A qué colegio de primaria fuiste?</option>
+                                        <option value="¿Cuál es el nombre de tu superhéroe favorito?">¿Cuál es el nombre de tu superhéroe favorito?</option>
+                                        <option value="¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?">¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?</option>
                                     </select>
                             </div>
                             <div class="form-group">
@@ -179,9 +186,36 @@
                                 <div id="admin">
 
                                 </div>
+                            <?php endif; 
+                            if (!empty($admins[0])): ?> 
+                                <label>Bloquear administrador?</label>
+                                <div class="form-check form-check-inline">
+                                 <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="blockadmin" id="inlineRadio1" value="no" checked> No
+                                    </label>
+                                    
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="blockadmin" id="inlineRadio2" value="si" onclick="opcionesDeAdministrador();"> Sí
+                                    </label>
+                                    </div>
+                                    <br>
+                                    <small>Un administrador bloqueado no podrá acceder a este portal, pero seguirá en la base de datos.</small>
+                                    <br>
+                                    <br>
+                                    <label>Quitar permisos de administrador?</label>
+                                    <div class="form-check form-check-inline">
+                                 <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="noadmin" id="inlineRadio1" value="no" checked> No
+                                    </label>
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="noadmin" id="inlineRadio2" value="si" onclick="opcionesDeAdministrador();"> Sí
+                                    </label>
+                                    </div>
+                                    <br>
+                                    <small>Esto eliminará por completo al administrador de la base de datos.</small>
                             <?php endif; ?>
                             <div class="btn-toolbar">
-                                <span class="btn-toolbar"><a href="usuarios.php" class="btn btn-sm" role="button">Cancelar</a></span> <span class="btn-toolbar"><button type="submit" formaction="usuarios/nuevo.php" class="btn btn-sm">Añadir usuario</button></span>
+                                <span class="btn-toolbar"><a href="usuarios.php" class="btn btn-sm" role="button">Cancelar</a></span> <span class="btn-toolbar"><button type="submit" formaction="usuarios/modificar.php" class="btn btn-sm">Guardar modificaciones</button></span>
                             </div>
                             
                     </form>
