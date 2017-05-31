@@ -21,7 +21,14 @@
 
         <script src="js/jquery.js"></script>
 		<script src="js/bootstrap.js"></script>
-
+        <style>
+        .table th, td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #eceeef;
+            text-align: center;
+        }
+        </style>
         <title>Usuarios</title>
     </head>
     <body>
@@ -60,13 +67,14 @@
                                                 echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>";
                                                 $consultaAdmin = $consulta->preparar("SELECT email, bloqueado FROM admins WHERE email = ?", $row[0], 's');
                                                 $admin = $consultaAdmin->fetch_array(MYSQLI_NUM);
-                                                if (!empty($admin[0]) || $admin[0] !== "") {
+                                                if (!empty($admin[0])) {
                                                     echo "<a title=\"Este usuario es un administrador\"><i class=\"fa fa-user-o\" aria-hidden=\"true\"> </i> </a>";
-                                                 } 
-                                                if ($admin[1] == 1) {
+
+                                                 }
+                                                if ($admin[1] === 1) {
                                                     echo "<a title=\"Este usuario está bloqueado del panel de administración\"><i class=\"fa fa-ban\" aria-hidden=\"true\"></i> </a>";   
                                                  }
-                                                 echo $row[0]."</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"modificarUsuario.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";           
+                                                 echo $row[0]."</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"modificarUsuario.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a onclick=\"return confirm('Esto eliminará los usuarios. ¿Está seguro?')\" href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";           
                                                  
                                                                                      
     
@@ -85,13 +93,13 @@
                                                 echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>";
                                                 $consultaAdmin = $consulta->preparar("SELECT email, bloqueado FROM admins WHERE email = ?", $row[0], 's');
                                                 $admin = $consultaAdmin->fetch_array(MYSQLI_NUM);
-                                                if (!empty($admin[0]) || $admin[0] !== "") {
+                                                if (!empty($admin[0])) {
                                                     echo "<a title=\"Este usuario es un administrador\"><i class=\"fa fa-user-o\" aria-hidden=\"true\"> </i> </a>";
                                                  } 
                                                 if ($admin[1] == 1) {
                                                     echo "<a title=\"Este usuario está bloqueado del panel de administración\"><i class=\"fa fa-ban\" aria-hidden=\"true\"></i> </a>";   
                                                  }
-                                                 echo $row[0]."</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"modificarUsuario.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";           
+                                                 echo $row[0]."</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td><a href=\"modificarUsuario.php?email={$row[0]}\" title=\"Ajustes de usuario\"><i class=\"fa fa-cog\" aria-hidden=\"true\"></i></a> <a onclick=\"return confirm('Esto eliminará los usuarios. ¿Está seguro?')\" href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";           
                                                  
                                             }
                                             
@@ -106,7 +114,7 @@
                             </tfoot>
                         </table>
                         <input type="hidden" name="token" value="<?php echo $token; ?>">
-                        <button type="submit" formmethod="post" id="boton" formaction="usuarios/eliminar.php" class="btn btn-secondary btn-lg" disabled>Eliminar</button>
+                        <button type="submit" onclick="return confirm('Esto eliminará los usuarios. ¿Está seguro?')" formmethod="post" id="boton" formaction="usuarios/eliminar.php" class="btn btn-secondary btn-lg" disabled>Eliminar</button>
                     </form>
                 </main>
             </div>

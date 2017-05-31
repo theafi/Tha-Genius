@@ -19,24 +19,24 @@
     $email = $consulta->escapar($_POST['email']);
     if (isset($_POST['password'])) {
         $contraseña = $hash->ssha512($_POST['password']);
-        $consulta->consulta("UPDATE users SET 'password' = '$contraseña' WHERE email = $email");
+        $consulta->consulta("UPDATE users SET password = '$contraseña' WHERE email = '$email'");
     } 
     if (isset($_POST['nombre'])) {
         $nombre = $consulta->escapar($_POST['nombre']);
-        $consulta->consulta("UPDATE users SET 'nombre' = '$nombre' WHERE email = $email");
+        $consulta->consulta("UPDATE users SET name = '$nombre' WHERE email = '$email'");
     }
     if (isset($_POST['apellidos'])) {
         $apellidos = $consulta->escapar($_POST['apellidos']);
-        $consulta->consulta("UPDATE users SET 'apellidos' = '$apellidos' WHERE email = $email");
+        $consulta->consulta("UPDATE users SET surname = '$apellidos' WHERE email = '$email'");
     }
     if (isset($_POST['respuesta'])) {
         $pregunta = $consulta->escapar($_POST['pregunta']); // Ya sé que parece una gilipollez sanear un select PERO NO ME FIO NI DE MI SOMBRA
         $respuesta = password_hash(strtoupper($_POST['respuesta']), PASSWORD_DEFAULT); // A las respuestas les doy el mismo tratamiento que a las contraseñas. Convierto el string en mayúsculas antes de hashearlo para que sea case insensitive 
-        $consulta->consulta("UPDATE restore SET 'secretquestion' = '$pregunta', 'answer' = '$respuesta' WHERE email = $email");
+        $consulta->consulta("UPDATE restore SET secretquestion = '$pregunta', answer = '$respuesta' WHERE email = '$email'");
     }
     if(isset($_POST['emailsecundario'])) {
             $emailsecundario = $consulta->escapar($_POST['emailsecundario']);
-            $consulta->consulta("UPDATE restore SET 'alternate_email' = '$emailsecundario' WHERE email = $email");
+            $consulta->consulta("UPDATE restore SET alternate_email = '$emailsecundario' WHERE email = '$email'");
 
     }
    
@@ -51,5 +51,6 @@
         $consulta->preparar("DELETE FROM admins WHERE email = ?", $email, 's');
     }
     $consulta->cerrar();
-    header("Location: ../usuarios.php");
+    echo $pregunta;
+    //header("Location: ../usuarios.php");
     ?>
