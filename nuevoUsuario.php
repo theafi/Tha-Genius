@@ -106,8 +106,7 @@
         <div class="container-fluid">
             <div class="row">
                 <?php include 'sidebar.php'; ?>
-                <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-                    <div class="col-md-5">
+                <main class="col-sm-9 offset-sm-3 col-md-4 offset-md-5 pt-4">
                         <form action="/usuarios/nuevo.php" method="post" autocomplete="off" onSubmit="return checkPass(this);">  
                             <div class="form-group">
                                 <input type="text" class="form-control" oninput="previsualizarEmail(); this.value = this.value.replace(/[^A-Za-z0-9._%+-]/g, '')" name="usuario" id="usuario" maxLength="30" placeholder="Nombre de usuario" required>

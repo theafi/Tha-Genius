@@ -28,11 +28,11 @@
         <div class="container-fluid">
             <div class="row">
                 <?php include 'sidebar.php'; ?>
-                <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+                <main class="col-sm-9 offset-sm-3 col-md-5 offset-md-2 pt-3">
                     <form action="eliminar.php" method="post">
                         <table class="table">
                             <thead>
-                                <tr><th></th><th colspan="2">Dominio</th></tr>
+                                <tr><th></th><th>Dominio</th><th>Opciones</th></tr>
                             </thead>
                             <tbody>
                                 <?php
@@ -40,7 +40,7 @@
                                         while ($row = $dominios->fetch_array(MYSQLI_NUM)) {
                                             $row[0] = htmlspecialchars($row[0]);
                                                 if ($row[0] === "proyecto.net"){
-                                                    echo "<tr><td></td><td colspan=\"2\">{$row[0]}</td></tr>";
+                                                    echo "<tr><td></td><td>{$row[0]}</td><td></td></tr>";
                                                 } else {
                                                     echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td><a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";           
                                                 } 

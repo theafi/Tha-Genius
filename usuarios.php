@@ -26,7 +26,16 @@
             padding: 0.75rem;
             vertical-align: top;
             border-top: 1px solid #eceeef;
+            max-width: 150px;
             text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .table td:hover {
+
+             overflow:visible;
+
+
         }
         </style>
         <title>Usuarios</title>
@@ -35,10 +44,11 @@
         <div class="container-fluid">
             <div class="row">
                 <?php include 'sidebar.php'; ?>
-                <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+                <main class="col-sm-9 offset-sm-3 col-md-9 offset-md-2 pt-3">
                     <form action="eliminar.php" method="post">
                         <table class="table">
-                            Dominio: <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
+                            <div class="col-md-3">
+                                Dominio: <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
                                 <option value="usuarios.php">Todos</option>
                                 <?php 
                                     $consulta = new Consultas;
@@ -48,6 +58,8 @@
                                     }  
                                 ?>
                                     </select> <br>
+                            </div>
+                            
                             <thead>
                                 <tr><th></th><th>Correo electrónico</th><th>Nombre</th><th>Apellidos</th><th>Correo secundario</th><th>Opciones</th></tr>
                             </thead>

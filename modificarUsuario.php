@@ -117,8 +117,8 @@
         <div class="container-fluid">
             <div class="row">
                 <?php include 'sidebar.php'; ?>
-                <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-                    <div class="col-md-5">
+                <main class="col-sm-9 offset-sm-3 col-md-4 offset-md-5 pt-3">
+
                         <form action="/usuarios/modificar.php" method="post" autocomplete="off" onSubmit="return checkPass(this);">  
                             <div class="form-group">
                             <div class="form-group">
