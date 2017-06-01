@@ -28,7 +28,7 @@
         <div class="container-fluid">
             <div class="row">
                 <?php include 'sidebar.php'; ?>
-                <main class="col-sm-9 offset-sm-3 col-md-5 offset-md-2 pt-3">
+                <main class="col-sm-9 offset-sm-3 col-md-9 offset-md-2 pt-3">
                     <form action="eliminar.php" method="post">
                         <table class="table">
                             <thead>
