@@ -31,12 +31,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .table td:hover {
-
-             overflow:visible;
-
-
-        }
         </style>
         <title>Usuarios</title>
     </head>
@@ -48,13 +42,17 @@
                     <form action="eliminar.php" method="post">
                         <table class="table">
                             <div class="col-md-3">
-                                Dominio: <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
-                                <option value="usuarios.php">Todos</option>
+                                Dominio: <select class="form-control" oninput="location = this.options[this.selectedIndex].value;">
+                                <option value="usuarios.php?">Todos</option>
                                 <?php 
                                     $consulta = new Consultas;
                                     $dominios = $consulta->consulta("SELECT domain FROM domains");
                                     while ($row = $dominios->fetch_array(MYSQLI_NUM)) {
-                                        echo "<option value=\"usuarios.php?dominio=".$row[0]."\">".$row[0]."</option>";
+                                        echo "<option value=\"usuarios.php?dominio=".$row[0]."\";
+                                        if () {
+                                        
+                                        "">".$row[0]."</option>";
+                                        }
                                     }  
                                 ?>
                                     </select> <br>
@@ -68,15 +66,21 @@
                                     if (isset($_GET['dominio'])) {
                                         $dominio = $consulta->escapar($_GET['dominio']);
                                         $usuarios = $consulta->preparar("SELECT users.email, users.name, users.surname, restore.alternate_email FROM users LEFT OUTER JOIN restore ON restore.user = users.email WHERE domain = ?", $dominio, 's');
+                                        if ($usuarios->num_rows === 0) {
+                                            
+                                                echo "<tr><td colspan=\"6\">No hay usuarios en el dominio seleccionado.</td></tr>";
+                                            
+                                        }
                                         while ($row = $usuarios->fetch_array(MYSQLI_NUM)) {
                                             $row[0] = htmlspecialchars($row[0]);
                                             $row[1] = htmlspecialchars($row[1]);
                                             $row[2] = htmlspecialchars($row[2]);
                                             $row[3] = htmlspecialchars($row[3]);
+                                            
                                             if ($row[0] === "do_not_reply@proyecto.net") { // Quiero conservar esta cuenta porque es la que usaré para recuperar contraseñas y enviar cualquier clase de información y por eso no dejo que nadie la toque 
                                                 echo "<tr><td></td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td></td></tr>";                                    
                                             } else{
-                                                echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>";
+                                                echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td style=\" overflow:visible;\">";
                                                 $consultaAdmin = $consulta->preparar("SELECT email, bloqueado FROM admins WHERE email = ?", $row[0], 's');
                                                 $admin = $consultaAdmin->fetch_array(MYSQLI_NUM);
                                                 if (!empty($admin[0])) {
@@ -102,7 +106,7 @@
                                             if ($row[0] === "do_not_reply@proyecto.net") {
                                                 echo "<tr><td></td><td>". $row[0]. "</td><td>". $row[1]. "</td><td>". $row[2]. "</td><td>". $row[3]. "</td><td></td></tr>";                                    
                                             } else{
-                                                echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>";
+                                                echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td style=\" overflow:visible;\">";
                                                 $consultaAdmin = $consulta->preparar("SELECT email, bloqueado FROM admins WHERE email = ?", $row[0], 's');
                                                 $admin = $consultaAdmin->fetch_array(MYSQLI_NUM);
                                                 if (!empty($admin[0])) {
