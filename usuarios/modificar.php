@@ -30,13 +30,13 @@
         $consulta->consulta("UPDATE users SET surname = '$apellidos' WHERE email = '$email'");
     }
     if (isset($_POST['respuesta'])) {
-        $pregunta = $consulta->escapar($_POST['pregunta']); // Ya sé que parece una gilipollez sanear un select PERO NO ME FIO NI DE MI SOMBRA
+        $pregunta = $_POST['pregunta'];
         $respuesta = password_hash(strtoupper($_POST['respuesta']), PASSWORD_DEFAULT); // A las respuestas les doy el mismo tratamiento que a las contraseñas. Convierto el string en mayúsculas antes de hashearlo para que sea case insensitive 
-        $consulta->consulta("UPDATE restore SET secretquestion = '$pregunta', answer = '$respuesta' WHERE email = '$email'");
+        $consulta->consulta("UPDATE restore SET secretquestion = '$pregunta', answer = '$respuesta' WHERE user = '$email'");
     }
     if(isset($_POST['emailsecundario'])) {
             $emailsecundario = $consulta->escapar($_POST['emailsecundario']);
-            $consulta->consulta("UPDATE restore SET alternate_email = '$emailsecundario' WHERE email = '$email'");
+            $consulta->consulta("UPDATE restore SET alternate_email = '$emailsecundario' WHERE user = '$email'");
 
     }
    
@@ -47,10 +47,13 @@
     if (isset($_POST['blockadmin']) && $_POST['blockadmin'] === 'si') {
         $consulta->preparar("UPDATE admins SET bloqueado = 1 WHERE email = ?", $email, 's');
     }
+    if (isset($_POST['blockadmin']) && $_POST['blockadmin'] === 'no') {
+        $consulta->preparar("UPDATE admins SET bloqueado = 0 WHERE email = ?", $email, 's');
+    }
     if (isset($_POST['noadmin']) && $_POST['noadmin'] === 'si') {
         $consulta->preparar("DELETE FROM admins WHERE email = ?", $email, 's');
     }
     $consulta->cerrar();
-    echo $pregunta;
-    //header("Location: ../usuarios.php");
+
+    header("Location: ../usuarios.php");
     ?>

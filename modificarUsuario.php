@@ -56,8 +56,7 @@
                     // Para que pueda enviar el formulario sin cambiar la contrase;a necesariamente tengo que permitir que si el valor es 0 que devuelva true
                     if (pass1.value.length === 0 && pass2.value.length === 0) {
                         return (true);
-                    } else {
-                        if(pass1.value.length < 6 && pass2.value.length < 6) {
+                    } else if(pass1.value.length < 6 && pass2.value.length < 6) {
                         pass1.style.backgroundColor = badColor;
                         pass2.style.backgroundColor = badColor;
                         message.style.color = badColor;
@@ -66,7 +65,7 @@
                     } else {
                         return (true);
                     }
-                    }
+                    
                     
                 } else{
                     //The passwords do not match.
@@ -151,11 +150,10 @@
                             <div class="form-group">
                                     <label>Pregunta secreta:</label>
                                     <select class="form-control" name="pregunta">
-
-                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
-                                        <option value="¿A qué colegio de primaria fuiste?">¿A qué colegio de primaria fuiste?</option>
-                                        <option value="¿Cuál es el nombre de tu superhéroe favorito?">¿Cuál es el nombre de tu superhéroe favorito?</option>
-                                        <option value="¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?">¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?</option>
+                                        <option value="1">¿Cuál es el nombre de tu primera mascota?</option>
+                                        <option value="2">¿A qué colegio de primaria fuiste?</option>
+                                        <option value="3">¿Cuál es el nombre de tu superhéroe favorito?</option>
+                                        <option value="4">¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?</option>
                                     </select>
                             </div>
                             <div class="form-group">
@@ -191,11 +189,11 @@
                                 <label>Bloquear administrador?</label>
                                 <div class="form-check form-check-inline">
                                  <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="blockadmin" id="inlineRadio1" value="no" checked> No
+                                        <input class="form-check-input" type="radio" name="blockadmin" id="inlineRadio1" value="no" <?php if ($admins[1] === 0) { echo "checked"; } ?>> No
                                     </label>
                                     
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="blockadmin" id="inlineRadio2" value="si" onclick="opcionesDeAdministrador();"> Sí
+                                        <input class="form-check-input" type="radio" name="blockadmin" id="inlineRadio2" value="si" <?php if ($admins[1] === 1) { echo "checked"; } ?>> Sí
                                     </label>
                                     </div>
                                     <br>
@@ -208,7 +206,7 @@
                                         <input class="form-check-input" type="radio" name="noadmin" id="inlineRadio1" value="no" checked> No
                                     </label>
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="noadmin" id="inlineRadio2" value="si" onclick="opcionesDeAdministrador();"> Sí
+                                        <input class="form-check-input" type="radio" name="noadmin" id="inlineRadio2" value="si" > Sí
                                     </label>
                                     </div>
                                     <br>

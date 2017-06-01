@@ -153,10 +153,10 @@
                             <div class="form-group">
                                     <label>Pregunta secreta:</label>
                                     <select class="form-control" name="pregunta">
-                                        <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
-                                        <option value="¿A qué colegio de primaria fuiste?">¿A qué colegio de primaria fuiste?</option>
-                                        <option value="¿Cuál es el nombre de tu superhéroe favorito?">¿Cuál es el nombre de tu superhéroe favorito?</option>
-                                        <option value="¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?">¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?</option>
+                                        <option value="1">¿Cuál es el nombre de tu primera mascota?</option>
+                                        <option value="2">¿A qué colegio de primaria fuiste?</option>
+                                        <option value="3">¿Cuál es el nombre de tu superhéroe favorito?</option>
+                                        <option value="4">¿Qué pasa cuando un objeto inamovible se cruza con una fuerza imparable?</option>
                                     </select>
                             </div>
                             <div class="form-group">

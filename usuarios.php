@@ -116,6 +116,14 @@
                         <input type="hidden" name="token" value="<?php echo $token; ?>">
                         <button type="submit" onclick="return confirm('Esto eliminará los usuarios. ¿Está seguro?')" formmethod="post" id="boton" formaction="usuarios/eliminar.php" class="btn btn-secondary btn-lg" disabled>Eliminar</button>
                     </form>
+                    <br>
+                    <div id="error">
+                        <?php if (isset($_SESSION['error'])) {
+                            echo $_SESSION['error'];
+                            $_SESSION['error'] = "";
+                        }
+                        ?>
+                    </div>
                 </main>
             </div>
         </div>
