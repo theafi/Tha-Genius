@@ -51,7 +51,7 @@
 
                             </tbody>
                             <tfoot>
-                                <tr><td colspan="3"><a href="nuevodominio.php"> <i class="fa fa-plus" aria-hidden="true"> </i> Añadir usuario</a> </td></tr>
+                                <tr><td colspan="3"><a href="nuevodominio.php"> <i class="fa fa-plus" aria-hidden="true"> </i> Añadir dominio</a> </td></tr>
                             </tfoot>
                         </table>
                         <input type="hidden" name="token" value="<?php echo $token; ?>">
