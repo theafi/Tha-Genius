@@ -24,7 +24,7 @@
 		<script src="js/bootstrap.js"></script>
         <script>
             function nuevoDominio() {
-                var nuevoCampo = "<td></td><td><div class=\"form-group\><form method=\"post\" autocomplete=\"off\"><input type=\"text\ name=\"dominio\" class=\"form-group\" maxLength=\"50\" placeholder=\"Dominio\"></div></td><td><button type=\"submit\" formaction=\"dominios/nuevo.php\" formmethod=\"post\" class=\"btn btn-scondary btn-sm\">A;adir</button></td>"
+                var nuevoCampo = '<td></td><td><div class="col-md-4 offset-md-4"><form method="post" autocomplete="off"><input type="text" name="dominio" class="form-control" pattern="[a-zA-Z0-9]+\.[a-z]{2,4}$/" maxLength="50" placeholder="Dominio" required><input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td><td><button type="submit" formaction="dominios/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">A;adir</button></td>'
                 document.getElementById("dominio").innerHTML = nuevoCampo;
             }
         </script>
@@ -35,7 +35,8 @@
             <div class="row">
                 <?php include 'sidebar.php'; ?>
                 <main class="col-sm-9 offset-sm-3 col-md-9 offset-md-2 pt-3">
-                <label>No olvides a;adir un registro A y un registro MX en tu servidor DNS que apunte a este servidor de correo para que funcione en tu dominio. Un registro SPF no es necesario pero es recomendable para evitar el spam. <a href="https://mediatemple.net/community/products/dv/204404314/how-can-i-create-an-spf-record-for-my-domain">Lee más sobre cómo crear registros SPF aquí.</a></label>
+                    <label>No olvides a;adir un registro A y un registro MX en tu servidor DNS que apunte a este servidor de correo para que funcione en tu dominio. Un registro SPF no es necesario pero es recomendable para evitar el spam. <a href="https://mediatemple.net/community/products/dv/204404314/how-can-i-create-an-spf-record-for-my-domain">Lee más sobre cómo crear registros SPF aquí.</a></label>
+                    <br>
                     <form action="eliminar.php" method="post">
                         <table class="table">
                             <thead>
@@ -45,7 +46,7 @@
                                 <?php
                                         $dominios = $consulta->consulta("SELECT domain FROM domains");
                                         while ($row = $dominios->fetch_array(MYSQLI_NUM)) {
-                                            $row[0] = htmlspecialchars($row[0]);
+                                            $row[0] = htmlspecialchars($row[0]); // Evito ataques XSS escapando caracteres prohibidos en HTML
                                                 if ($row[0] === "proyecto.net"){
                                                     echo "<tr><td></td><td>{$row[0]}</td><td></td></tr>";
                                                 } else {
