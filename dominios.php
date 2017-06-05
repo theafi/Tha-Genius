@@ -24,7 +24,8 @@
 		<script src="js/bootstrap.js"></script>
         <script>
             function nuevoDominio() {
-                var nuevoCampo = '<td></td><td><div class="col-md-4 offset-md-4"><form method="post" autocomplete="off"><input type="text" name="dominio" class="form-control" pattern="[a-zA-Z0-9]+\.[a-z]{2,4}$/" maxLength="50" placeholder="Dominio" required><input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td><td><button type="submit" formaction="dominios/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">A;adir</button></td>'
+                var nuevoCampo = '<td></td><td><div class="col-md-4 offset-md-4"><form method="post" autocomplete="off"><input type="text" name="dominio" class="form-control" pattern="^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$" maxLength="50" placeholder="Dominio" required><input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td><td><button type="submit" formaction="dominios/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">Añadir</button></td>'
+                // La expresión regular "([a-zA-Z0-9]+)(\.[a-z]{2,4})+(\.[a-z]{2,4})$" admite un nombre de dominio y un TLD (de 2 a 4 caracteres) como mínimo, y se le puede añadir otro TLD como pasa en algunos dominios, p.e: el TLD .co.uk
                 document.getElementById("dominio").innerHTML = nuevoCampo;
             }
         </script>
@@ -35,10 +36,16 @@
             <div class="row">
                 <?php include 'sidebar.php'; ?>
                 <main class="col-sm-9 offset-sm-3 col-md-9 offset-md-2 pt-3">
-                    <label>No olvides a;adir un registro A y un registro MX en tu servidor DNS que apunte a este servidor de correo para que funcione en tu dominio. Un registro SPF no es necesario pero es recomendable para evitar el spam. <a href="https://mediatemple.net/community/products/dv/204404314/how-can-i-create-an-spf-record-for-my-domain">Lee más sobre cómo crear registros SPF aquí.</a></label>
+                    <label>No olvides añadir un registro A y un registro MX en tu servidor DNS que apunte a este servidor de correo para que funcione en tu dominio una vez añadido al sistema. Un registro SPF no es necesario pero es recomendable para evitar el spam. <a href="https://mediatemple.net/community/products/dv/204404314/how-can-i-create-an-spf-record-for-my-domain">Lee más sobre cómo crear registros SPF aquí.</a></label>
                     <br>
+                    <div id="error">
+                        <?php if (isset($_SESSION['error'])){
+                            echo $_SESSION['error'];
+                            $_SESSION['error'] = "";
+                        } ?>
+                    </div>
                     <form action="eliminar.php" method="post">
-                        <table class="table">
+                        <table class="table pt-2">
                             <thead>
                                 <tr><th></th><th>Dominio</th><th>Opciones</th></tr>
                             </thead>
@@ -50,7 +57,7 @@
                                                 if ($row[0] === "proyecto.net"){
                                                     echo "<tr><td></td><td>{$row[0]}</td><td></td></tr>";
                                                 } else {
-                                                    echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td><a href=\"usuarios/eliminar.php?email={$row[0]}\" title=\"Eliminar usuario\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";           
+                                                    echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td><a href=\"dominios/eliminar.php?dominio={$row[0]}\" title=\"Eliminar dominio\" onclick=\"return confirm('ALERTA: Borrar el dominio borrará los usuarios asociados a él. ¿Está seguro?');\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";           
                                                 } 
                                                                                      
     
@@ -59,12 +66,13 @@
                              <tr id="dominio"></tr>           
                             </tbody>
                             <tfoot>
-                                <tr><td colspan="3"> <button type="button" class="btn btn-secondary btn-sm" onclick="return nuevoDominio();"><i class="fa fa-plus"  aria-hidden="true"> </i> Añadir dominio </button></td></tr>
+                                <tr><td colspan="3"> <button type="button" class="btn btn-secondary btn-md" onclick="return nuevoDominio();"><i class="fa fa-plus"  aria-hidden="true"> </i> Añadir dominio </button></td></tr>
                             </tfoot>
                         </table>
                         <input type="hidden" name="token" value="<?php echo $token; ?>">
-                        <button type="submit" onclick="return confirm('NOTA: Eliminar un dominio eliminará los usuarios asociados a este. Está seguro?')" formmethod="post" id="boton" formaction="dominios/eliminar.php" class="btn btn-secondary btn-lg" disabled>Eliminar</button>
+                        <button type="submit" onclick="return confirm('NOTA: Eliminar un dominio eliminará los usuarios asociados a este. Está seguro?')" formmethod="post" id="boton" formaction="dominios/eliminar.php" class="btn btn-secondary btn-md" disabled>Eliminar</button>
                     </form>
+
                 </main>
             </div>
         </div>
