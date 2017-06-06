@@ -116,9 +116,13 @@
                                     <select class="form-control" oninput="previsualizarEmail();" name="dominio" id="dominio">
                                         <?php 
                                             $consulta = new Consultas;
-                                            $dominios = $consulta->consulta("SELECT domain FROM domains");
+                                            $dominios = $consulta->consulta("SELECT domain, block FROM domains");
                                             while ($row = $dominios->fetch_array(MYSQLI_NUM)) {
-                                                echo "<option>{$row[0]}</option>";
+                                                if ($row[1] === '1') {
+                                                    echo "<option value=\"{$row[0]}\"disabled>{$row[0]} ---BLOQUEADO---</option>";
+                                                } else {
+                                                    echo "<option>{$row[0]}</option>";
+                                                }
                                             }
                                         ?>
                                     </select>
