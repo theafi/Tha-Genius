@@ -24,7 +24,7 @@
 		<script src="js/bootstrap.js"></script>
         <script>
             function nuevoDominio() {
-                var nuevoCampo = '<td></td><td><div class="col-md-4 offset-md-4"><form method="post" autocomplete="off"><input type="text" name="dominio" class="form-control" pattern="^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$" maxLength="50" placeholder="Dominio" required><input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td><td><button type="submit" formaction="dominios/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">Añadir</button></td>'
+                var nuevoCampo = '<td></td><td><div class="col-md-4 offset-md-4"><form method="post" autocomplete="off"><input type="text" name="dominio" class="form-control" pattern="^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$" maxLength="50" placeholder="Dominio" required><input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td><td><button type="submit" formaction="dominios/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">Añadir</button></td>';
                 // La expresión regular "^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$" admite un nombre de dominio y un TLD (de 2 a 6 caracteres) como mínimo, y se le puede añadir otro TLD como pasa en algunos dominios, p.e: el TLD .co.uk
                 document.getElementById("dominio").innerHTML = nuevoCampo;
             }
@@ -42,6 +42,8 @@
                         <?php if (isset($_SESSION['error'])){
                             echo $_SESSION['error'];
                             $_SESSION['error'] = "";
+                        } else {
+                            $_SESSION['error'] = "";
                         } ?>
                     </div>
                     <form action="eliminar.php" method="post">
@@ -51,17 +53,20 @@
                             </thead>
                             <tbody>
                                 <?php
-                                        $dominios = $consulta->consulta("SELECT domain FROM domains");
+                                        $dominios = $consulta->consulta("SELECT domain, block FROM domains");
                                         while ($row = $dominios->fetch_array(MYSQLI_NUM)) {
                                             $row[0] = htmlspecialchars($row[0]); // Evito ataques XSS escapando caracteres prohibidos en HTML
                                                 if ($row[0] === "proyecto.net"){
                                                     echo "<tr><td></td><td>{$row[0]}</td><td></td></tr>";
                                                 } else {
-                                                    echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td><a href=\"dominios/eliminar.php?dominio={$row[0]}\" title=\"Eliminar dominio\" onclick=\"return confirm('ALERTA: Borrar el dominio borrará los usuarios asociados a él. ¿Está seguro?');\"> <i class=\"fa fa-times\" aria-hidden=\"true\"></i></a></td></tr>";           
-                                                } 
-                                                                                     
-    
-                                            }
+                                                    if ($row[1] === '0') {
+                                                        echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td><a href=\"dominios/eliminar.php?dominio={$row[0]}\" title=\"Eliminar dominio\" onclick=\"return confirm('ALERTA: Borrar el dominio borrará los usuarios asociados a él. ¿Está seguro?')\"> <i class=\"fa fa-times\" aria-hidden=\"true\"> </i> </a><a href=\"dominios/bloquear.php\" title=\"Bloquear dominio\" onclick=\"return confirm('NOTA: Bloquear el dominio impedirá crear nuevos usuarios en este dominio e impedirá que usuarios creados en este dominio que no hayan sido usados previamente puedan enviar correo, pero no impedirá que usuarios activos en este correo no puedan seguir enviando y recibiendo correo. Está seguro?')\"><i class=\"fa fa-lock\" aria-hidden=\"true\"></i> </a></td></tr>;";
+                                                    } else {
+                                                        echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked;\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td><i class=\"fa fa-ban\" aria-hidden=\"true\" title=\"Dominio bloqueado\"> </i> ". $row[0]. "</td><td><a href=\"dominios/eliminar.php?dominio={$row[0]}\" title=\"Eliminar dominio\" onclick=\"return confirm('ALERTA: Borrar el dominio borrará los usuarios asociados a él. ¿Está seguro?');\"> <i class=\"fa fa-times\" aria-hidden=\"true\"> </i> </a><a title=\"Desbloquear dominio\" href=\"dominios/bloquear.php\" ><i class=\"fa fa-unlock-alt\" aria-hidden=\"true\"></i> </a></td></tr>;";
+                                                    }
+                                                                   
+                                                }                                        
+                                        }
                                 ?>
                              <tr id="dominio"></tr>           
                             </tbody>
