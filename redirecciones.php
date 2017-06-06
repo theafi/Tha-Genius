@@ -55,7 +55,22 @@
                                     <tr><th></th><th>Origen</th><th>Destino</th><th></th></tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    <?php
+                                        $forwardings = $consulta->consulta("SELECT source, destination FROM forwardings");
+                                        if ($forwardings->num_rows === 0 && is_null($forwardings)) {
+                                            echo "<tr><td colspan=\"4\">No hay redirecciones designadas en el sistema.</td></tr>";
+                                        } else {
+                                            while ($row = $forwardings->fetch_array(MYSQLI_NUM)) {
+                                            $row[0] = htmlspecialchars($row[0]); // Evito ataques XSS escapando caracteres prohibidos en HTML
+                                            $row[1] = htmlspecialchars($row[1]);   
+                                            echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td><a href=\"redirecciones/eliminar.php?origen={$row[0]}&destino={$row[1]}\" title=\"Eliminar redirección\" onclick=\"return confirm('¿Está seguro de que desea borrar la redirección?')\"><i class=\"fa fa-times\" aria-hidden=\"true\"></a></i><td></tr>";        
+                                            }
+                                        }
+                                       
+                                                                   
+                                                                                
+                                        
+                                    ?>
                                 </tbody>
                         </form>
                     </table>

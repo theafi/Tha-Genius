@@ -126,7 +126,7 @@
 
                             </tbody>
                             <tfoot>
-                                <tr><td colspan="6"><a href="nuevoUsuario.php"> <i class="fa fa-plus" aria-hidden="true"> </i> Añadir usuario</a> </td></tr>
+                                <tr><td colspan="6"><a href="nuevoUsuario.php">  <button type="button" class="btn btn-secondary btn-md"><i class="fa fa-plus" aria-hidden="true"> </i> Añadir usuario</button></a> </td></tr>
                             </tfoot>
                         </table>
                         <input type="hidden" name="token" value="<?php echo $token; ?>">
