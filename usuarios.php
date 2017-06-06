@@ -43,7 +43,7 @@
                         <table class="table">
                             <div class="col-md-3">
                                 Dominio: <select class="form-control" oninput="location = this.options[this.selectedIndex].value;">
-                                <option value="usuarios.php?">Todos</option>
+                                <option value="usuarios.php">Todos</option>
                                 <?php 
                                     $consulta = new Consultas;
                                     $dominios = $consulta->consulta("SELECT domain FROM domains");
