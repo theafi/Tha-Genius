@@ -48,7 +48,11 @@
                                     $consulta = new Consultas;
                                     $dominios = $consulta->consulta("SELECT domain FROM domains");
                                     while ($row = $dominios->fetch_array(MYSQLI_NUM)) {
-                                        echo "<option value=\"usuarios.php?dominio=".$row[0]."\">".$row[0]."</option>";
+                                        if ($_GET['dominio'] === $row[0]) {
+                                            echo "<option value=\"usuarios.php?dominio=".$row[0]."\" selected>".$row[0]."</option>";
+                                        } else{
+                                            echo "<option value=\"usuarios.php?dominio=".$row[0]."\">".$row[0]."</option>";
+                                        }
                                     }  
                                 ?>
                                     </select> <br>
