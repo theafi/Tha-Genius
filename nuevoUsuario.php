@@ -119,7 +119,7 @@
                                             $dominios = $consulta->consulta("SELECT domain, block FROM domains");
                                             while ($row = $dominios->fetch_array(MYSQLI_NUM)) {
                                                 if ($row[1] === '1') {
-                                                    echo "<option value=\"{$row[0]}\"disabled>{$row[0]} ---BLOQUEADO---</option>";
+                                                    echo "<option value=\"{$row[0]}\"disabled>{$row[0]} ---BLOQUEADO---</option>"; //Los dominios bloqueados no serán seleccionables
                                                 } else {
                                                     echo "<option>{$row[0]}</option>";
                                                 }
