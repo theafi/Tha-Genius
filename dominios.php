@@ -25,7 +25,7 @@
         <script>
             function nuevoDominio() {
                 var nuevoCampo = '<td></td><td><div class="col-md-4 offset-md-4"><form method="post" autocomplete="off"><input type="text" name="dominio" class="form-control" pattern="^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$" maxLength="50" placeholder="Dominio" required><input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td><td><button type="submit" formaction="dominios/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">Añadir</button></td>'
-                // La expresión regular "([a-zA-Z0-9]+)(\.[a-z]{2,4})+(\.[a-z]{2,4})$" admite un nombre de dominio y un TLD (de 2 a 4 caracteres) como mínimo, y se le puede añadir otro TLD como pasa en algunos dominios, p.e: el TLD .co.uk
+                // La expresión regular "^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$" admite un nombre de dominio y un TLD (de 2 a 6 caracteres) como mínimo, y se le puede añadir otro TLD como pasa en algunos dominios, p.e: el TLD .co.uk
                 document.getElementById("dominio").innerHTML = nuevoCampo;
             }
         </script>
