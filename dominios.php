@@ -32,7 +32,7 @@
                 document.getElementById("dominio").innerHTML = ''
             }
         </script>
-        <title>Usuarios</title>
+        <title>Dominios</title>
     </head>
     <body>
         <div class="container-fluid">
