@@ -69,7 +69,7 @@
                                         <form>
                                             <td></td>
                                             <td>
-                                                <div class="col-md-4 offset-md-4">
+                                                
                                                     <select class="form-control" name="origen" id="origen">
                                                         <?php 
                                                             $consultaUsuarios = $consulta->consulta("SELECT email FROM users ORDER BY domain ASC"); 
@@ -78,7 +78,7 @@
                                                         ?>
                                             </td>
                                             <td>
-                                                <input type="email" name="destino" class="form-control" list="destino" placeholder="Doble click para ver sugerencias" required multiple>
+                                                <input type="email" name="destino" class="form-control" list="destino" placeholder="Doble click para ver sugerencias" required>
                                                 <datalist id="destino">
                                                     <?php 
                                                         $consultaUsuarios = $consulta->consulta("SELECT email FROM users ORDER BY domain ASC"); 
@@ -91,13 +91,12 @@
                                                 <input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td>
                                                 <td><button type="submit" formaction="redirecciones/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">Añadir</button></td>
                                         </form>  
-                                    </div>
+                                   
                                               
                                     </tr>
                                 
                                 </tbody>
                                 <tfoot>
-                                    <tr><td colspan="4"> <button type="button" class="btn btn-secondary btn-md" onclick="return nuevaRedireccion()"><i class="fa fa-plus"  aria-hidden="true"> </i> Añadir dominio </button></td></tr>
                                 </tfoot>
                             </table>
                 </main>

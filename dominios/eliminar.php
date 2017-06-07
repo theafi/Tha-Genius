@@ -1,14 +1,7 @@
 <?php
     session_start();
     
-       if (empty($_POST['token'])) {
-        header("Location: ../");
-        }
-    else {
-        if (!hash_equals($_SESSION['token'], $_POST['token'])) {
-                header("Location: ../");
-        } 
-    }
+
 	if((!isset($_SESSION['email'])) && (empty($_SESSION['email']))) {
 		header("Location: ../login.php");
 	}
@@ -24,6 +17,13 @@
         }
 
     } elseif (isset($_POST['checkbox'])) {
+        if (empty($_POST['token'])) {
+            header("Location: ../");
+        }
+        elseif (!hash_equals($_SESSION['token'], $_POST['token'])) {
+                header("Location: ../");
+            } 
+    } else {
          foreach ($_POST['checkbox'] as $dominio) {
             if ($dominio === $_SESSION['dominio']) {
                 $consulta->cerrar();

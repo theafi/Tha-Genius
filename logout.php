@@ -6,7 +6,7 @@
 		require 'funcion.php';
 		$fecha = date('Y-m-d H:i:s');
 		$consulta = new Consultas;
-		$consulta->consulta("UPDATE sessions SET last_logout = '{$fecha}' WHERE session_id = {$_SESSION['sessionid']}");
+		$consulta->consulta("UPDATE sessions SET last_logout = '$fecha' WHERE session_id = {$_SESSION['sessionid']}");
 		$consulta->cerrar();
 		$_SESSION[] = array();
 		session_unset();
