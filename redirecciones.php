@@ -32,7 +32,7 @@
                 document.getElementById("dominio").innerHTML = ''
             }
         </script>
-        <title>Dominios</title>
+        <title>Redirecciones</title>
     </head>
     <body>
         <div class="container-fluid">
