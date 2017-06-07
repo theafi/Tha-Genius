@@ -21,6 +21,7 @@
 
         <script src="js/jquery.js"></script>
 		<script src="js/bootstrap.js"></script>
+        <script src="js/funciones.js"></script>
         <style>
         .table th, td {
             padding: 0.75rem;

@@ -33,60 +33,8 @@
         <script src="js/jquery.js"></script>
 		<script src="js/bootstrap.js"></script>
         <script src="js/pwstrength-bootstrap.js"></script>
+        <script src="js/funciones.js"></script>
         <script type="text/javascript">
-            function checkPass(f) {
-            
-                //Store the password field objects into variables ...
-                var pass1 = f.elements["password"];
-                var pass2 = f.elements["passwordcheck"];
-                //Store the Confimation Message Object ...
-                var message = document.getElementById('error');
-                //Set the colors we will be using ...3.
-                var badColor = "#ff6666";
-                //Compare the values in the password field 
-                //and the confirmation field
-                if(pass1.value == pass2.value){
-                    //Las contraseñas coinciden
-                    if(pass1.value.length < 6 && pass2.value.length < 6) {
-                        pass1.style.backgroundColor = badColor;
-                        pass2.style.backgroundColor = badColor;
-                        message.style.color = badColor;
-                        message.innerHTML = "La contraseña tiene que ser de 6 caracteres mínimo";
-                        return (false);
-                    } else {
-                        return (true);
-                    }
-                } else{
-                    //The passwords do not match.
-                    //Set the color to the bad color and
-                    //notify the user.
-                    pass2.style.backgroundColor = badColor;
-                    message.style.color = badColor;
-                    message.innerHTML = "Las contraseñas no coinciden";
-                    return (false);
-                }
-        }  
-           function contraseñaAleatoria() {
-                var randomstring = btoa(Math.random()).slice(-10); // Genera números aleatoriamente y los convierte en un string en Base64. Conservo los 10 últimos caracteres del string únicamente para generar una contraseña fuerte.
-                document.getElementById("randompass").innerHTML = '<span class="input-group-btn"><button type="button" onclick="contraseñaAleatoria();" class="btn btn-sm" id="randompassword">Generar contraseña</button></span><input type="text" value="' + randomstring + '" class="form-control" readonly>';
-            }
-            function previsualizarEmail() { // Permite ver el email antes de que se cree
-                var nombre = document.getElementById("usuario")
-                var dominio = document.getElementById("dominio");
-                document.getElementById("demo").value = nombre.value.replace(/[^A-Za-z0-9._%+-]/g, '') + '@' + dominio.options[dominio.selectedIndex].text;
-            }
-            function opcionesDeAdministrador() {
-                var codigoHTML = '<div class="form-group">'
-                               + '<input type="password" name="passwordadmin" class="form-control" id="passwordadmin" placeholder="Contraseña para el administrador" minLength="6" required>  '
-                            +'<small>Es aconsejable utilizar una contraseña distinta a la anterior</small>'
-                            +'</div>'
-                           + '<div class="col-sm-4 col-sm-offset-2" style="">'
-                               + '<div class="form-group">'
-                                   + '<div class="pwstrength_viewport_progress"></div> '                       
-                                +'</div>'
-                         +  ' </div>';
-                document.getElementById("admin").innerHTML = codigoHTML;
-            }
             $(document).ready(function () {
                 var options = {};
                 options.rules = {
