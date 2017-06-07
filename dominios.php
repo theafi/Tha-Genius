@@ -24,8 +24,7 @@
 		<script src="js/bootstrap.js"></script>
         <script src="js/funciones.js"></script>
         <script>
-        // REQUIERE SER PARSEADA POR PHP PARA PODER MOSTRAR EL TOKEN
-            function nuevoDominio() { // Genera un nuevo campo con un input para introducir un dominio 
+            function nuevoDominio() { // Genera un nuevo campo con un input para introducir un dominio
                 var nuevoCampo = '<td></td><td><div class="col-md-4 offset-md-4"><form method="post" autocomplete="off"><input type="text" name="dominio" class="form-control" pattern="^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$" maxLength="50" placeholder="Dominio" required><input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td><td><small><a href="#" onclick="return cerrarNuevo()">Cancelar</a> </small><button type="submit" formaction="dominios/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">Añadir</button></td>'
                 // La expresión regular "^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$" admite un nombre de dominio y un TLD (de 2 a 6 caracteres) como mínimo, y se le puede añadir otro TLD como pasa en algunos dominios, p.e: el TLD .co.uk
                 document.getElementById("dominio").innerHTML = nuevoCampo

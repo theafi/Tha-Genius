@@ -17,26 +17,15 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/estilo.css">
-
         <script src="https://use.fontawesome.com/ba338c7fda.js"></script>
-
         <script src="js/jquery.js"></script>
 		<script src="js/bootstrap.js"></script>
         <script src="js/funciones.js"></script>
         <script>
 
-            function nuevaRedireccion() { // Crea un campo con dos input para anadir una nueva redireccion
-                var nuevoCampo = '<td></td><td><div class="col-md-4 offset-md-4"><form method="post" autocomplete="off">'
-                + '<select class="form-control mySelect" name="origen" id="origen">'
-                + '<?php $consultaUsuarios = $consulta->consulta("SELECT email FROM users ORDER BY domain ASC"); while ($row = $consultaUsuarios->fetch_array(MYSQLI_NUM)) { $row[0] = htmlspecialchars($row[0]); echo "<option>{$row[0]}</option>"; } ?>' 
-                 + '</td><td><select class="form-control mySelect" name="destino" id="destino">'
-                + '<?php $consultaUsuarios = $consulta->consulta("SELECT email FROM users ORDER BY domain ASC"); while ($row = $consultaUsuarios->fetch_array(MYSQLI_NUM)) {$row[0] = htmlspecialchars($row[0]); echo "<option>{$row[0]}</option>"; } ?>' 
-                + '<input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td>'
-                + '<td><small><a href="#" onclick="return cerrarRedireccion()">Cancelar</a> </small><button type="submit" formaction="dominios/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">Añadir</button></td>'
-                document.getElementById("nuevoForwarding").innerHTML = nuevoCampo
+            function nuevaRedireccion() { 
                 
             } // Por más que lo intente no puedo deshabilitar los correos que ya han sido seleccionados, así que voy a hacer la comprobación en el servidor y pasando
-   
 
         </script>
         <title>Redirecciones</title>
@@ -56,7 +45,7 @@
                                 $_SESSION['error'] = "";
                             } ?>
                         </div>
-                        <form action="redirecciones/eliminar.php" method="post">
+                        
                             <table class="table pt-2">
                                 <thead>
                                     <tr><th></th><th>Origen</th><th>Destino</th><th></th></tr>
@@ -75,13 +64,42 @@
                                         }                                        
                                         
                                     ?>
-                                    <tr id="nuevoForwarding"></tr>
+                                    <tr>
+                                    <div id="nuevoForwarding" style="display: none;">
+                                        <form>
+                                            <td></td>
+                                            <td>
+                                                <div class="col-md-4 offset-md-4">
+                                                    <select class="form-control" name="origen" id="origen">
+                                                        <?php 
+                                                            $consultaUsuarios = $consulta->consulta("SELECT email FROM users ORDER BY domain ASC"); 
+                                                            while ($row = $consultaUsuarios->fetch_array(MYSQLI_NUM)) { 
+                                                                $row[0] = htmlspecialchars($row[0]); echo "<option>{$row[0]}</option>"; } 
+                                                        ?>
+                                            </td>
+                                            <td>
+                                                <input type="email" name="destino" class="form-control" list="destino" placeholder="Doble click para ver sugerencias" required multiple>
+                                                <datalist id="destino">
+                                                    <?php 
+                                                        $consultaUsuarios = $consulta->consulta("SELECT email FROM users ORDER BY domain ASC"); 
+                                                        while ($row = $consultaUsuarios->fetch_array(MYSQLI_NUM)) {
+                                                            $row[0] = htmlspecialchars($row[0]); 
+                                                            echo "<option>{$row[0]}</option>"; 
+                                                        }
+                                                    ?> 
+                                                </datalist>
+                                                <input type="hidden" name="token" value="<?php echo $token; ?>" required></div></td>
+                                                <td><button type="submit" formaction="redirecciones/nuevo.php" formmethod="post" class="btn btn-scondary btn-md">Añadir</button></td>
+                                        </form>  
+                                    </div>
+                                              
+                                    </tr>
+                                
                                 </tbody>
                                 <tfoot>
                                     <tr><td colspan="4"> <button type="button" class="btn btn-secondary btn-md" onclick="return nuevaRedireccion()"><i class="fa fa-plus"  aria-hidden="true"> </i> Añadir dominio </button></td></tr>
                                 </tfoot>
-                        </form>
-                    </table>
+                            </table>
                 </main>
             </div>
         </div>
