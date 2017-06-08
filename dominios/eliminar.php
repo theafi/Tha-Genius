@@ -29,7 +29,8 @@
                 $consulta->cerrar();
                 $_SESSION['error'] = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Error </strong>No puedes borrarte a ti mismo</div>";
             } else {
-                $consulta->preparar('DELETE FROM domains WHERE domain = ?', $dominio, 's');  
+                $consulta->preparar('DELETE FROM domains WHERE domain = ?', $dominio, 's');
+                $consulta->preparar('DELETE FROM transport WHERE domain = ?', $dominio, 's');  
             }
         }
     }

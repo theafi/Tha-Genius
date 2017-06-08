@@ -60,9 +60,7 @@
 			<div class="form-group">
 					<input type="checkbox" name="recuerdame"> Recuérdame
 			</div>
-			<button type="submit">Iniciar sesión</button> <a href=""><small>Olvidé mi contraseña</small></a><br>
-			<small>¿No tiene cuenta? <a href="registro.php">Registre una cuenta</a></small>
-			</form> 
+			<button type="submit" class="btn btn-scondary btn-md">Iniciar sesión</button> <a href="recuperar.php"><small>Olvidé mi contraseña</small></a><br>			</form> 
 			<div id="error"><?php 
                                 if(!empty($_SESSION['error'])) {
                                     echo $_SESSION['error'];
