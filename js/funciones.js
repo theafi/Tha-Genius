@@ -18,9 +18,6 @@
                 //Compara los valores en las contrase;as
                 if(pass1.value == pass2.value){
                     //Las contraseñas coinciden
-                    // Para que pueda enviar el formulario sin cambiar la contrase;a necesariamente tengo que permitir que si el valor es 0 que devuelva true
-                 /*   if (pass1.value.length === 0 && pass2.value.length === 0) {
-                        return (true); // Aquí no */
                     if(pass1.value.length < 6 && pass2.value.length < 6) { //Comprueba si la contrasena es menor de seis caracteres
                         pass1.style.backgroundColor = badColor;
                         pass2.style.backgroundColor = badColor;
@@ -30,8 +27,6 @@
                     } else {
                         return (true);
                     }
-                    
-                    
                 } else{
                     //Las contrasenas no coinciden. Notifica al usuario y pinta el campo erroneo.
                     pass2.style.backgroundColor = badColor;

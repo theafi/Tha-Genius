@@ -17,9 +17,7 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/estilo.css">
-
         <script src="https://use.fontawesome.com/ba338c7fda.js"></script>
-
         <script src="js/jquery.js"></script>
 		<script src="js/bootstrap.js"></script>
         <script src="js/funciones.js"></script>
