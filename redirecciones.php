@@ -22,11 +22,7 @@
 		<script src="js/bootstrap.js"></script>
         <script src="js/funciones.js"></script>
         <script>
-
-            function nuevaRedireccion() { 
-                
-            } // Por más que lo intente no puedo deshabilitar los correos que ya han sido seleccionados, así que voy a hacer la comprobación en el servidor y pasando
-
+        // Aquí por alguna razón no puedo generar dinamicamente el campo de anadir (puedo hacerlo pero no me deja enviarlo despues) asi que lo he hecho permanente.
         </script>
         <title>Redirecciones</title>
     </head>
@@ -45,7 +41,7 @@
                                 $_SESSION['error'] = "";
                             } ?>
                         </div>
-                        
+                        <form action="eliminar.php" method="post">
                             <table class="table pt-2">
                                 <thead>
                                     <tr><th></th><th>Origen</th><th>Destino</th><th></th></tr>
@@ -59,7 +55,7 @@
                                             while ($row = $forwardings->fetch_array(MYSQLI_NUM)) {
                                             $row[0] = htmlspecialchars($row[0]); // Evito ataques XSS escapando caracteres prohibidos en HTML
                                             $row[1] = htmlspecialchars($row[1]);   
-                                            echo "<tr><td><input type=\"checkbox\" class='form' onchange=\"document.getElementById('boton').disabled = !this.checked\" value=\"{$row[0]}\" name=\"checkbox[]\" /> </td><td>". $row[0]. "</td><td>". $row[1]. "</td><td><a href=\"redirecciones/eliminar.php?origen={$row[0]}&destino={$row[1]}&token={$token}\" title=\"Eliminar redirección\" onclick=\"return confirm('¿Está seguro de que desea borrar la redirección?')\"><i class=\"fa fa-times\" aria-hidden=\"true\"></a></i><td></tr>";        
+                                            echo "<tr><td></td><td>". $row[0]. "</td><td>". $row[1]. "</td><td><a href=\"redirecciones/eliminar.php?origen={$row[0]}&destino={$row[1]}\" title=\"Eliminar redirección\" onclick=\"return confirm('¿Está seguro de que desea borrar la redirección?')\"><i class=\"fa fa-times\" aria-hidden=\"true\"></a></i><td></tr>";        
                                             }
                                         }                                        
                                         
@@ -74,7 +70,15 @@
                                                         <?php 
                                                             $consultaUsuarios = $consulta->consulta("SELECT email FROM users ORDER BY domain ASC"); 
                                                             while ($row = $consultaUsuarios->fetch_array(MYSQLI_NUM)) { 
-                                                                $row[0] = htmlspecialchars($row[0]); echo "<option>{$row[0]}</option>"; } 
+                                                                $row[0] = htmlspecialchars($row[0]); 
+                                                                $consultaOrigen = $consulta->preparar("SELECT source FROM forwardings WHERE source = ?", $row[0], 's');
+                                                                $origen = $consultaOrigen->fetch_array(MYSQLI_NUM); 
+                                                                if ($origen[0] !== $row[0]) {
+                                                                    echo "<option>{$row[0]}</option>"; 
+                                                                } else {
+                                                                    echo "<option disabled>{$row[0]}</option>"; 
+                                                                }
+                                                            }
                                                         ?>
                                             </td>
                                             <td>
@@ -83,8 +87,10 @@
                                                     <?php 
                                                         $consultaUsuarios = $consulta->consulta("SELECT email FROM users ORDER BY domain ASC"); 
                                                         while ($row = $consultaUsuarios->fetch_array(MYSQLI_NUM)) {
-                                                            $row[0] = htmlspecialchars($row[0]); 
+                                                            $row[0] = htmlspecialchars($row[0]);
                                                             echo "<option>{$row[0]}</option>"; 
+                                                            
+                                                            
                                                         }
                                                     ?> 
                                                 </datalist>
@@ -98,7 +104,9 @@
                                 </tbody>
                                 <tfoot>
                                 </tfoot>
+                                
                             </table>
+                           
                 </main>
             </div>
         </div>
