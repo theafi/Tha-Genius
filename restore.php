@@ -16,7 +16,7 @@
                 $hash = new hash;
                 $password = bin2hex(random_bytes(32)); // Genero una contraseña aleatoria cada vez que vaya a enviar un correo
                 $passwordhash = $hash->ssha512($password);
-                $consulta->consulta("REPLACE INTO users(email, domain, password) VALUES ('do_not_reply@proyecto.net', 'proyecto.net', '$passwordhash')");
+                $consulta->consulta("REPLACE INTO users(email, domain, password) VALUES ('do_not_reply@proyecto.net', 'proyecto.net', '$passwordhash')"); // REPLACE funciona como INSERT pero lo hace siempre truncando lo que haya dentro, independientemente de que exista o no.
                 $email = $consulta->escapar($_POST['email']);
                 //Conexión al servidor SMTP
                 $mail = new PHPMailer;
