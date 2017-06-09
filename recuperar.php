@@ -47,14 +47,7 @@
 						</div>
 						<button type="submit" class="btn btn-secondary btn-sm">Recuperar contrasena</button> 
 					</form> 
-					<div id="error">
-						<?php 
-							if(!empty($_SESSION['error'])) {
-									echo $_SESSION['error'];
-									$_SESSION['error'] = "";
-							}
-						?>
-					</div>
+					<br>
 					<div id="mensaje">
 						<?php 
 							if(!empty($_SESSION['mensaje'])) {

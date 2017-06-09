@@ -62,9 +62,9 @@
 			</div>
 			<button type="submit" class="btn btn-scondary btn-md">Iniciar sesión</button> <a href="recuperar.php"><small>Olvidé mi contraseña</small></a><br>			</form> 
 			<div id="error"><?php 
-                                if(!empty($_SESSION['error'])) {
-                                    echo $_SESSION['error'];
-                                    $_SESSION['error'] = "";
+                                if(!empty($_SESSION['mensaje'])) {
+                                    echo $_SESSION['mensaje'];
+                                    $_SESSION['mensaje'] = "";
                                 }
                             ?>
             </div>
