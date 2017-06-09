@@ -21,13 +21,21 @@
                 //Conexión al servidor SMTP
                 $mail = new PHPMailer;
                 $mail->isSMTP();
-                $mail->Host = gethostbyname('mail.proyecto.net');
+                $mail->Host = 'mail.proyecto.net';
                 $mail->SMTPAuth = true;
                 $mail->Username = 'do_not_reply@proyecto.net';
                 $mail->Password = $password;
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
-                $mail->SMTPDebug = 2;
+                $mail->SMTPDebug = 4;
+                //Opciones de PHPMailer
+                $mail->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true // Necesito esto para que funcione con mi certificado. En un entorno de producción no activaria esto ni borracho
+                    )
+                );
                 //Cabecera del correo
                 $mail->setFrom('do_not_reply@proyecto.net', 'Sistema automático de recuperación de contraseñas');
                 $mail->addAddress($email); 
