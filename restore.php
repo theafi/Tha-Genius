@@ -33,9 +33,10 @@
                     'ssl' => array(
                         'verify_peer' => false,
                         'verify_peer_name' => false,
-                        'allow_self_signed' => true // Necesito esto para que funcione con mi certificado. En un entorno de producción no activaria esto ni borracho
+                        'allow_self_signed' => true // Necesito esto para que funcione con mi certificado. En un entorno de producción no activaria esto ni borracho pero aquí tengo que hacerlo porque mi certificado esta firmado unicamente por mi mismo y no se puede validar.
                     )
                 );
+                $mail->setLanguage('es', '/PHPMailer-master/language/phpmailer.lang-es.php');
                 //Cabecera del correo
                 $mail->setFrom('do_not_reply@proyecto.net', 'Sistema automático de recuperación de contraseñas');
                 $mail->addAddress($email); 
@@ -43,7 +44,7 @@
                 //Cuerpo del mensaje
                 $mail->Subject = 'Recuperación de contraseña';
                 $mail->Body    = 'Si ha recibido este mensaje es porque ha pulsado en el formulario de recuperación de contraseña. De ser así, por favor <a href="reset.php?email='.$email.'&token='.$restoretoken.'>haga click aquí.</a> En caso contrario, por favor ignore este mensaje.';
-                $mail->AltBody = 'Si ha recibido este mensaje es porque ha pulsado en el formulario de recuperación de contraseña. De ser así, por favor haga click aquí: reset.php?email='.$email.'&token='.$restoretoken.' En caso contrario, por favor ignore este mensaje.';
+                $mail->AltBody = 'Si ha recibido este mensaje es porque ha pulsado en el formulario de recuperación de contraseña. De ser así, por favor haga click aquí: reset.php?email='.$email.'&token='.$restoretoken.' En caso contrario, por favor ignore este mensaje.'; // Cuerpo secundario para clientes que no soporten HTML
                 if(!$mail->send()) {
                     $_SESSION['mensaje'] = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Error </strong>Algo ha fallado: ". $mail->ErrorInfo."</div>";
 
