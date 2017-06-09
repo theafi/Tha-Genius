@@ -27,7 +27,7 @@
                 $mail->Password = $password;
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
-                $mail->SMTPDebug = 4;
+                $mail->SMTPDebug = 2;
                 //Opciones de PHPMailer
                 $mail->SMTPOptions = array(
                     'ssl' => array(
@@ -42,8 +42,8 @@
                 $mail->isHTML(true);  
                 //Cuerpo del mensaje
                 $mail->Subject = 'Recuperación de contraseña';
-                $mail->Body    = 'Si ha recibido este mensaje es porque ha pulsado en el formulario de recuperación de contraseña. De ser así, por favor <a href="reset.php?email={$email}&token={$restoretoken}>haga click aquí.</a> En caso contrario, por favor ignore este mensaje.';
-                $mail->AltBody = 'Si ha recibido este mensaje es porque ha pulsado en el formulario de recuperación de contraseña. De ser así, por favor haga click aquí: reset.php?email={$email}&token={$restoretoken} En caso contrario, por favor ignore este mensaje.';
+                $mail->Body    = 'Si ha recibido este mensaje es porque ha pulsado en el formulario de recuperación de contraseña. De ser así, por favor <a href="reset.php?email='.$email.'&token='.$restoretoken.'>haga click aquí.</a> En caso contrario, por favor ignore este mensaje.';
+                $mail->AltBody = 'Si ha recibido este mensaje es porque ha pulsado en el formulario de recuperación de contraseña. De ser así, por favor haga click aquí: reset.php?email='.$email.'&token='.$restoretoken.' En caso contrario, por favor ignore este mensaje.';
                 if(!$mail->send()) {
                     $_SESSION['mensaje'] = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Error </strong>Algo ha fallado: ". $mail->ErrorInfo."</div>";
 
