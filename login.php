@@ -58,7 +58,7 @@
 			</div>
 			<input type="hidden" name="token" value="<?php echo $token; ?>" required>
 			<div class="form-group">
-					<input type="checkbox" name="recuerdame"> Recuérdame
+					<input type="checkbox" name="recuerdame" value="si"> Recuérdame
 			</div>
 			<button type="submit" class="btn btn-scondary btn-md">Iniciar sesión</button> <a href="recuperar.php"><small>Olvidé mi contraseña</small></a><br>			</form> 
 			<div id="error"><?php 
