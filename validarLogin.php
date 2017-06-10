@@ -1,4 +1,5 @@
 <?php 
+	session_id(mt_rand());
 	session_start();
 	if((isset($_SESSION['id'])) && (!empty($_SESSION['id']))) { 
 		header('Location: index.php');
@@ -19,7 +20,6 @@
 	<body>
 		<?php
 			require 'funcion.php';
-			$Conexion = new BD;
 			$Consulta = new Consultas;
 			$clave = $_POST['clave1'];
 			$email = $Consulta->escapar($_POST['email']);
@@ -47,14 +47,19 @@
 			*/ 
 			
 			else{
+				
 				$consulta_datos_usuario = $Consulta->preparar("SELECT name, surname, domain FROM users WHERE email = ?", $email, 's');
 				$filas = $consulta_datos_usuario->fetch_array(MYSQLI_NUM);
+				$sessionid = session_id();
 				$_SESSION['email'] = $email;
 				$_SESSION['nombre'] = print_r($filas[0], true);
 				$_SESSION['apellidos'] = print_r($filas[1], true);
 				$_SESSION['dominio'] = print_r($filas[2], true);
+				$_SESSION['sessionid'] = $sessionid;
 				$fecha = date('Y-m-d H:i:s');
-				$Consulta->consulta("REPLACE INTO sessions(email, current_login) VALUES ('{$email}', '{$fecha}')");
+				$ip = $_SERVER['REMOTE_ADDR'];
+				$proxyip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+				$Consulta->consulta("INSERT INTO sessions(sessionid, email, current_login, ip, proxy_ip) VALUES ($sessionid, '$email', '$fecha', '$ip', '$proxy_ip')");
 				$Consulta->cerrar();
 				if (!isset($_POST['recuerdame'])) {
 					$_SESSION['sessionexpire'] == time()+(60*60); // La sesión expirará después de una hora si no se marca Recuérdame.

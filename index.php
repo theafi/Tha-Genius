@@ -12,9 +12,11 @@
     }
 
      require 'funcion.php';
+     $consulta = new Consultas;
      if (!(isset($_GET['section']))) {
          $_GET['section'] = 'Inicio';
      }
+     $email = htmlspecialchars($_SESSION['email']);
 ?>
 <html>
     <head>
@@ -30,20 +32,33 @@
             <div class="row">
                 <?php include 'sidebar.php'; ?>
                 <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-                        <h1>Lorem ipsum</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.
+                        <h1>Inicio</h1>
+                        <p>Bienvenido <?php if (isset($_SESSION['nombre'])): echo htmlspecialchars($_SESSION['nombre'])." "; if(isset($_SESSION['apellidos'])): echo htmlspecialchars($_SESSION['apellidos']); endif; else: echo $email; endif; echo "."; ?> <p>
+                        <p>Su último inicio de sesión fue el
+                            <?php
+                                $consultaUltimaSesion = $consulta->preparar("SELECT last_login FROM sessions WHERE email = ? ORDER BY last_login ASC LIMIT 1, 1", $email, 's');
+                                $row = $consultaUltimaSesion->fetch_array(MYSQLI_NUM);
+                                echo $row[1];
+                                
+                            ?> </p>
+                        <h1>Estadísticas</h1>
+                        <div class="col-md-6">
+                            <table class="table table-bordered">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    <tr><th>Usuarios registrados</th><td><?php $cuentaUsers = $consulta->consulta("SELECT COUNT(*) FROM users"); $cuenta = $cuentaUsers->fetch_array(MYSQLI_NUM); echo $cuenta[0]; ?></td></tr>
+                                    <tr><th>Dominios registrados</th><td><?php $cuentaDominios = $consulta->consulta("SELECT COUNT(*) FROM domains"); $cuenta = $cuentaDominios->fetch_array(MYSQLI_NUM); echo $cuenta[0]; ?></td></tr>
+                                    <tr><th>Número de administradores</th><td><?php $cuentas = $consulta->consulta("SELECT COUNT(*) FROM admins"); $cuenta = $cuentas->fetch_array(MYSQLI_NUM); echo $cuenta[0]; ?></td></tr>
+                                    <tr><th>Redirecciones definidas</th><td><?php $cuentas = $consulta->consulta("SELECT COUNT(*) FROM forwardings"); $cuenta = $cuentas->fetch_array(MYSQLI_NUM); echo $cuenta[0]; ?></td></tr>
+                                    <tr><th>Dominios con distinta puerta de enlace</th><td><?php $cuentas = $consulta->consulta("SELECT COUNT(*) FROM transport"); $cuenta = $cuentas->fetch_array(MYSQLI_NUM); echo $cuenta[0]; ?></td></tr>
+                                    <tr><th>Administradores bloqueados</th><td><?php $cuentas = $consulta->consulta("SELECT COUNT(*) FROM admins WHERE bloqueado = 1"); $cuenta = $cuentas->fetch_array(MYSQLI_NUM); echo $cuenta[0]; ?></td></tr>
+                                    <tr><th>Dominios bloqueados</th><td><?php $cuentas = $consulta->consulta("SELECT COUNT(*) FROM domains WHERE block = 1"); $cuenta = $cuentas->fetch_array(MYSQLI_NUM); echo $cuenta[0]; ?></td></tr>
+                                    <tr><th>Usuario con más inicios de sesion</th><td><?php $cuentas = $consulta->consulta("SELECT email, count(*) FROM sessions GROUP BY email"); $cuenta = $cuentas->fetch_array(MYSQLI_NUM); echo $cuenta[0]." (".$cuenta[1].")"; ?></td></tr>
 
-Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.
-
-Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.
-
-Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
-
-Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
-
-Pellentesque fermentum dolor. Aliquam quam lectus, facilisis auctor, ultrices ut, elementum vulputate, nunc.
-
-Sed adipiscing ornare risus. Morbi est est, blandit sit amet, sagittis vel, euismod vel, velit. Pellentesque egestas sem. Suspendisse commodo ullamcorper magna.<p>
+                                </tbody>
+                            </table>
+                        </div>
                 </main>
             </div>
         </div>

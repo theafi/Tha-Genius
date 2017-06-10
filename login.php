@@ -11,6 +11,9 @@
 			#error {
 				color: red;	
 			}
+			#exito {
+				color: green;	
+			}
 			.login {
 				position: absolute;
 				top: 50%;
@@ -49,22 +52,34 @@
 ?>
 
 		<div class="login">
-			<div class="form-group">
-				<form action="validarLogin.php" autocomplete="on" method="post" enctype="multipart/form-data">
-					<input type="email" class="form-control" name="email" placeholder="Correo electrónico" required>
-			</div>
-			<div class="form-group">
-					<input type="password" class="form-control" name="clave1" id="clave1" minlength="5" maxlength="10" placeholder="Contraseña" required> <br>
-			</div>
-			<input type="hidden" name="token" value="<?php echo $token; ?>" required>
-			<div class="form-group">
-					<input type="checkbox" name="recuerdame" value="si"> Recuérdame
-			</div>
-			<button type="submit" class="btn btn-scondary btn-md">Iniciar sesión</button> <a href="recuperar.php"><small>Olvidé mi contraseña</small></a><br>			</form> 
+			<form action="validarLogin.php" class="form-control" autocomplete="on" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+						<input type="email" class="form-control" name="email" placeholder="Correo electrónico" required>
+				</div>
+				<div class="form-group">
+						<input type="password" class="form-control" name="clave1" id="clave1" minlength="5" maxlength="10" placeholder="Contraseña" required> <br>
+				</div>
+				<input type="hidden" name="token" value="<?php echo $token; ?>" required>
+				<div class="form-group">
+						<input type="checkbox" name="recuerdame" value="si"> Recuérdame
+				</div>
+				<button type="submit" class="btn btn-scondary btn-md">Iniciar sesión</button> <a href="recuperar.php"><small>Olvidé mi contraseña</small></a><br>
+			</form> 
 			<div id="error"><?php 
                                 if(!empty($_SESSION['mensaje'])) {
                                     echo $_SESSION['mensaje'];
                                     $_SESSION['mensaje'] = "";
+                                }
+								if(!empty($_SESSION['error'])) {
+                                    echo $_SESSION['error'];
+                                    $_SESSION['error'] = "";
+                                }
+                            ?>
+            </div>
+						<div id="exito"><?php 
+								if(!empty($_SESSION['exito'])) {
+                                    echo $_SESSION['exito'];
+                                    $_SESSION['exito'] = "";
                                 }
                             ?>
             </div>

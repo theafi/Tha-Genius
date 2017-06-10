@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <?php
 	session_start();
-	if (empty($_SESSION['restoretoken']) || empty($_GET['token'])): 
-		header('Location: login.php');
-	elseif ($_SESSION['restoretoken'] !== $_GET['token']):
-        header('Location: login.php');
+	if (isset($_GET['token']) && empty($_GET['token'])): 
+		if (!isset($_POST['token'])):
+			header('Location: login.php');
+			endif;
+	elseif (isset($_GET['token']) && $_SESSION['restoretoken'] !== $_GET['token']):
+		if ($_SESSION['alternativetoken'] !== $_POST['token']):
+        	header('Location: login.php');
+			endif;
     elseif((isset($_SESSION['email'])) && (!empty($_SESSION['email']))):
 		header('Location: index.php');
 	elseif(time() >= $_SESSION['tokentime']):
@@ -15,7 +19,12 @@
 	else: 
 		require 'funcion.php';
 		$consulta = new Consultas;
-		$email = $consulta->escapar($_GET['email']);
+		if (isset($_GET['email'])){
+			$email = $consulta->escapar($_GET['email']);
+		} elseif (isset($_POST['email'])){
+			$email = $consulta->escapar($_POST['email']);
+		}
+		
 		$consultaAdmins = $consulta->consulta("SELECT answer FROM restore WHERE user='$email'");
 		if ($consultaAdmins->num_rows === 0):
 			$_SESSION['mensaje'] = "Ha habido un error: Este usuario no existe o no tiene permisos de administrador. Vuelve a intentarlo más tarde.";
@@ -27,9 +36,9 @@
 			if (!empty($admins[0]) || is_null($admins[0])):
 				$restoretoken = $_SESSION['restoretoken'];
 				if(isset($_POST['respuesta'])) :
+					$alternativetoken = $_POST['token'];
 					$respuesta = strtoupper($_POST['respuesta']);
 					if (!password_verify($respuesta, $admins[0])) :
-						$alternativetoken = $_POST['alternativetoken'];
 						$_SESSION['mensaje'] = "La respuesta no es válida.";
 						header('Location: restore_alternative.php?email=$email&token=$alternativetoken&noemail=yes');
 					endif;
@@ -37,8 +46,7 @@
 ?>
 				<html>
 					<head>
-						<meta
-						charset="UTF-8">
+						<meta charset="UTF-8">
 						<link rel="stylesheet" href="css/bootstrap.css">
 						<script src="js/jquery.js"></script>
 						<script src="js/bootstrap.js"></script>
@@ -68,19 +76,22 @@
 						?>
 						<div class="login">
 								<div class="col-md-12">
-									<form action="validarReset.php" onsubmit="return checkPass(this)" autocomplete="on" method="post" enctype="multipart/form-data">
+									<form class="form-control" action="validarReset.php" onsubmit="return checkPass(this)" autocomplete="on" method="post" enctype="multipart/form-data">
 										<div class="input-group">
-											<input type="password" class="form-control" name="contraseña" minLength="6" placeholder="Nueva contraseña" required>
+											<input type="password" class="form-control" name="password" minLength="6" placeholder="Nueva contraseña" required>
 										</div>
 										<div class="input-group">
-											<input type="password" class="form-control" name="contraseña" minLength="6" placeholder="Vuelva a introducir su contraseña" required>
+											<input type="password" class="form-control" name="passwordcheck" minLength="6" placeholder="Vuelva a introducir su contraseña" required>
 										</div>
 										<input type="hidden" name="token" value="<?php echo $token; ?>" required>
+										<input type="hidden" name="email" value="<?php echo $email; ?>" required>
 										<div class="form-group">
 										</div>
 										<button type="submit" class="btn btn-secondary btn-sm">Reestablecer contraseña</button> <a href="login.php"><small>Cancelar</small></a>
 									</form> 
 									<br>
+									<div id="error">
+									</div>
 								</div>
 						</div>
 									

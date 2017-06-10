@@ -15,7 +15,7 @@
 	else: 
 		require 'funcion.php';
 		$consulta = new Consultas;
-		$email = $_GET['email'];
+		$email = $consulta->escapar($_GET['email']);
 		$consultaAdmins = $consulta->consulta("SELECT alternate_email, secretquestion FROM restore WHERE user='$email'");
 		if ($consultaAdmins->num_rows === 0):
 			$_SESSION['mensaje'] = "Ha habido un error: Este usuario no existe o no tiene permisos de administrador. Vuelve a intentarlo más tarde.";
@@ -99,14 +99,11 @@
 					</head>
 					<body>
 						<?php 
-							if (empty($_SESSION['token'])) { // Para evitar ataques CSRF
-								$_SESSION['token'] = bin2hex(random_bytes(32));
-							}
-							$token = $_SESSION['token'];
+							$token = $_SESSION['alternativetoken'];
 						?>
 						<div class="login">
 								<div class="col-md-12">
-									<form action="restore.php" autocomplete="on" method="post" enctype="multipart/form-data">
+									<form action="reset.php" autocomplete="on" method="post" enctype="multipart/form-data">
 										<div class="input-group">
 										<label><?php 
 												switch ($admins[1]){
@@ -124,9 +121,12 @@
 														break;
 												}
 											?></label>
+										</div>
+										<div class="input-group">
 											<input type="text" class="form-control" name="respuesta" placeholder="Respuesta" required>
 										</div>
 										<input type="hidden" name="token" value="<?php echo $token; ?>" required>
+										<input type="hidden" name="email" value="<?php echo $email; ?>" required>
 										<div class="form-group">
 										</div>
 										<button type="submit" class="btn btn-secondary btn-sm">Recuperar contraseña</button> <a href="reset.php"><small>Cancelar</small></a>
