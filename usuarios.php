@@ -9,6 +9,9 @@
 	if (empty($_SESSION['token'])) { // Para evitar ataques CSRF
 		$_SESSION['token'] = bin2hex(random_bytes(32));
 	}
+    if (isset($_SESSION['sessionexpire']) && ($_SESSION['sessionexpire'] >= time())) {
+        header('Location: logout.php');
+    }
 
 ?>
 <html>

@@ -5,8 +5,12 @@
 	} else{
 		require 'funcion.php';
 		$fecha = date('Y-m-d H:i:s');
+		$email = $_SESSION['email'];
 		$consulta = new Consultas;
-		$consulta->consulta("UPDATE sessions SET last_logout = '$fecha' WHERE session_id = {$_SESSION['sessionid']}");
+		$email = $consulta -> escapar($email);
+		$consulta->preparar("UPDATE sessions SET last_logout = '$fecha' WHERE email = ?", $email, 's');
+		$consulta->preparar("UPDATE sessions SET last_login = current_login WHERE email = ?", $email, 's');
+		$consulta->preparar("UPDATE sessions SET current_login = NULL WHERE email = ?", $email, 's');
 		$consulta->cerrar();
 		$_SESSION[] = array();
 		session_unset();

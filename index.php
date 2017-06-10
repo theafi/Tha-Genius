@@ -7,6 +7,10 @@
 	if((!isset($_SESSION['email'])) && (empty($_SESSION['email']))) {
 		header('Location: login.php');
 	 }
+    if (isset($_SESSION['sessionexpire']) && ($_SESSION['sessionexpire'] >= time())) {
+        header('Location: logout.php');
+    }
+
      require 'funcion.php';
      if (!(isset($_GET['section']))) {
          $_GET['section'] = 'Inicio';

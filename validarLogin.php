@@ -8,6 +8,7 @@
 			echo "ALERTA: Está sucediendo un ataque CSRF.";
 		} 
 	}	
+	
 ?>
 <html>
 	<head>
@@ -53,11 +54,11 @@
 				$_SESSION['apellidos'] = print_r($filas[1], true);
 				$_SESSION['dominio'] = print_r($filas[2], true);
 				$fecha = date('Y-m-d H:i:s');
-				$Consulta->consulta("INSERT INTO sessions(email, last_login) VALUES ('{$email}', '{$fecha}')");
-				$consulta_sessionid = $Consulta->consulta("SELECT session_id FROM sessions WHERE email = '{$email}' AND last_login = '{$fecha}'");
-				$fetchsessionid = $consulta_sessionid->fetch_array(MYSQLI_NUM);
-				$_SESSION['sessionid'] = print_r($fetchsessionid[0], true);
+				$Consulta->consulta("REPLACE INTO sessions(email, current_login) VALUES ('{$email}', '{$fecha}')");
 				$Consulta->cerrar();
+				if (!isset($_POST['recuerdame'])) {
+					$_SESSION['sessionexpire'] == time()+(60*60); // La sesión expirará después de una hora si no se marca Recuérdame.
+				}
 				header('Location: index.php');
 				}
 			

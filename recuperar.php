@@ -45,23 +45,22 @@
 						<input type="hidden" name="token" value="<?php echo $token; ?>" required>
 						<div class="form-group">
 						</div>
-						<button type="submit" class="btn btn-secondary btn-sm">Recuperar contrasena</button> 
+						<button type="submit" class="btn btn-secondary btn-sm">Recuperar contraseña</button> <a href="login.php"><small>Cancelar</small></a>
 					</form> 
 					<br>
-					<div id="mensaje">
+				</div>
+				<div id="mensaje">
 						<?php 
 							if(!empty($_SESSION['mensaje'])) {
 									echo $_SESSION['mensaje'];
 									$_SESSION['mensaje'] = "";
 							}
 						?>
-					</div>
-				</div>
-					
 					
 				</div>
-			</div>
 		</div>
+					
+	
 	
 	</body>
 </html>
