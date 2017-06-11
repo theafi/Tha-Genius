@@ -1,5 +1,5 @@
 <?php
-	class BD { //probando
+	class BD { 
 		// Variables protegidas para que no puedan ser accedidas fuera de las propias clases o sus clases heredadas
 		// Sé que es mala práctica poner los datos justo en los scripts pero lo hago para que me sea más facil debuggear
 		protected static $dbhost = "mail.proyecto.net"; //Lo ideal es que tengamos que poner el nombre del dominio en lugar de la IP
@@ -74,38 +74,7 @@
 			return $hashedPassword;
 		}
 	}
-		//Función vieja del otro proyecto, no muy útil de momento.
-/* 	function subirImagen($i) {
-		if(isset($_POST['submit'])) {		
-			if (is_uploaded_file($_FILES['imagen']['tmp_name'][$i])) {
-				$tipo = explode('/',$_FILES['imagen']['type'][$i]);
-				if($_FILES['imagen']['error'][$i] > 0){
-					die('Ha habido un error al subir la imagen.');
-				} elseif($tipo[0] != "image"){
-					die('Tipo de archivo no soportado o el archivo no es una imagen.');
-				} elseif($_FILES['imagen']['size'][$i] > 1000000){
-					die('El archivo excede el límite de tamaño.');
-				} elseif(!getimagesize($_FILES['imagen']['tmp_name'][$i])){
-						die('Asegúrese de que está subiendo una imagen');
-				} else{
-					$imagen[$i] = $_FILES['imagen']['name'][$i];
-					$ruta[$i] = $_FILES['imagen']['tmp_name'][$i];
-					if(isset($imagen[$i]) && !empty($imagen[$i])) {
-						$localizacion = 'imagenes/'.date("Y-m-d-H-i-s")."-".$imagen[$i];
-						if(!file_exists($localizacion)) {
-							move_uploaded_file($ruta[$i], $localizacion);
-						} else {
-							die("Está intentando subir varios archivos con el mismo nombre o el mismo archivo varias veces. Por favor renombre los archivos y no abuse de la subida de imágenes.");
-						}
-					}
-				
-				}
-			} else {
-				$imagen[$i] = "";
-			}		
-		} return $imagen[$i];
-	}
-	*/ 
+
 	function comprobarArray($array){ // Créditos a Henry
 			function bucle($array, $prof=0){
 					
