@@ -36,9 +36,9 @@
                         <p>Bienvenido <?php if (isset($_SESSION['nombre'])): echo htmlspecialchars($_SESSION['nombre'])." "; if(isset($_SESSION['apellidos'])): echo htmlspecialchars($_SESSION['apellidos']); endif; else: echo $email; endif; echo "."; ?> <p>
                         <p>Su último inicio de sesión fue el
                             <?php
-                                $consultaUltimaSesion = $consulta->preparar("SELECT last_login FROM sessions WHERE email = ? ORDER BY last_login ASC LIMIT 1, 1", $email, 's');
+                                $consultaUltimaSesion = $consulta->preparar("SELECT last_login FROM sessions WHERE email = ? ORDER BY last_login ASC LIMIT 2, 2", $email, 's');
                                 $row = $consultaUltimaSesion->fetch_array(MYSQLI_NUM);
-                                echo $row[1];
+                                echo $row[0];
                                 
                             ?> </p>
                         <h1>Estadísticas</h1>

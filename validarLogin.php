@@ -1,7 +1,8 @@
 <?php 
-	session_id(mt_rand());
+	session_regenerate_id();
+	session_id(mt_rand()); // mt_rand es mas rápido que rand()
 	session_start();
-	if((isset($_SESSION['id'])) && (!empty($_SESSION['id']))) { 
+	if((isset($_SESSION['sessionid'])) && (!empty($_SESSION['sessionid']))) { 
 		header('Location: index.php');
 	}
 	if (!empty($_POST['token'])) {
