@@ -74,30 +74,4 @@
 			return $hashedPassword;
 		}
 	}
-
-	function comprobarArray($array){ // Créditos a Henry
-			function bucle($array, $prof=0){
-					
-				echo "<ul style='padding:10px; padding-left:30px; margin:10px; border-radius:5px;
-						border:solid 1px; display:inline-block; vertical-align:top;'>";
-				foreach($array as $cl => $vl){
-					if (is_array($vl))  {
-						echo "<li style='display:inline-block;margin-left:-20px;margin-right:20px'>
-								<p style='text-align:center'><b>[$cl]</b></p>";
-						bucle($vl, 1);
-					}
-					else  echo "<li>$cl: $vl";				
-				}
-				
-				if ($prof){
-					echo "<p ><strong>". count($array) .' elementos</strong></p>';
-					echo "</ul>";
-				}else{
-					echo "</ul>";
-					echo "<p style='margin-left:10px;'><strong>". count($array) .' elementos</strong></p>';
-				}	
-			}
-			echo "<h4 style='padding-left:10px'>Mapeandor de array unidimensionales y multidimensionial</h4>";
-			bucle($array);
-		}
 ?>
