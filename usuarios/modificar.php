@@ -45,7 +45,11 @@
         $consulta->consulta("INSERT INTO admins (email, password) VALUES ('$email', '$contraseñaadmin')");
     } 
     if (isset($_POST['blockadmin']) && $_POST['blockadmin'] === 'si') {
-        $consulta->preparar("UPDATE admins SET bloqueado = 1 WHERE email = ?", $email, 's');
+        if ($_SESSION['email'] === $_POST['email']) {
+            $_SESSION['error'] = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Error </strong>No puedes bloquearte a ti mismo</div>";       
+        } else {
+            $consulta->preparar("UPDATE admins SET bloqueado = 1 WHERE email = ?", $email, 's');
+        }
     }
     if (isset($_POST['blockadmin']) && $_POST['blockadmin'] === 'no') {
         $consulta->preparar("UPDATE admins SET bloqueado = 0 WHERE email = ?", $email, 's');

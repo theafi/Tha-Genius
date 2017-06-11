@@ -22,13 +22,14 @@
                 header("Location: ../");
         } else { 
         
-         foreach ($_POST['checkbox'] as $email) {
-            if ($email === $_SESSION['email']) {
-                $consulta->cerrar();
-                $_SESSION['error'] = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Error </strong>No puedes borrarte a ti mismo</div>";
-            } else {
-                $consulta->preparar('DELETE FROM users WHERE email = ?', $email, 's');
-                $consulta->preparar('DELETE FROM forwardings WHERE source = ?', $dominio, 's');  
+            foreach ($_POST['checkbox'] as $email) {
+                if ($email === $_SESSION['email']) {
+                    $consulta->cerrar();
+                    $_SESSION['error'] = "<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong>Error </strong>No puedes borrarte a ti mismo</div>";
+                } else {
+                    $consulta->preparar('DELETE FROM users WHERE email = ?', $email, 's');
+                    $consulta->preparar('DELETE FROM forwardings WHERE source = ?', $dominio, 's');  
+                }
             }
         }
     }
